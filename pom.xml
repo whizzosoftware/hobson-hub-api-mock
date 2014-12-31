@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 	<groupId>com.whizzosoftware.hobson.hub</groupId>
     <artifactId>hobson-hub-api-mock</artifactId>
-    <version>0.1.8-SNAPSHOT</version>
+    <version>0.1.8</version>
     <packaging>jar</packaging>
     <name>Hobson Hub API Mocks</name>
     <description>A mock implementation of Hobson API managers.</description>
@@ -91,7 +91,7 @@
     <scm>
         <connection>scm:git:ssh://git@github.com/whizzosoftware/hobson-hub-api-mock.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/whizzosoftware/hobson-hub-api-mock.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>hobson-hub-api-mock-0.1.8</tag>
     </scm>
     <distributionManagement>
         <repository>
