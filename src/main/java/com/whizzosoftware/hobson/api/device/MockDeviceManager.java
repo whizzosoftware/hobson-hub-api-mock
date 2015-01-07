@@ -12,13 +12,11 @@ import com.whizzosoftware.hobson.api.plugin.HobsonPlugin;
 import com.whizzosoftware.hobson.api.variable.telemetry.TelemetryInterval;
 import com.whizzosoftware.hobson.api.variable.telemetry.TemporalValue;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MockDeviceManager implements DeviceManager {
     public List<HobsonDevice> publishedDevices = new ArrayList<>();
+    public final Map<String,Map<String,Object>> deviceConfigProps = new HashMap<>();
 
     @Override
     public void enableDeviceTelemetry(String s, String s1, String s2, String s3, boolean b) {
@@ -51,8 +49,13 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
-    public Object getDeviceConfigurationProperty(String s, String s1, String s2, String s3, String s4) {
-        return null;
+    public Object getDeviceConfigurationProperty(String userId, String hubId, String pluginId, String deviceId, String name) {
+        Object value = null;
+        Map<String,Object> map = deviceConfigProps.get(createId(pluginId, deviceId));
+        if (map != null) {
+            value = map.get(name);
+        }
+        return value;
     }
 
     @Override
@@ -71,8 +74,15 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
-    public void setDeviceConfigurationProperty(String s, String s1, String s2, String s3, String s4, Object o, boolean b) {
-
+    public void setDeviceConfigurationProperty(String userId, String hubId, String pluginId, String deviceId, String name, Object value, boolean overwrite) {
+        Map<String,Object> map = deviceConfigProps.get(createId(pluginId, deviceId));
+        if (map == null) {
+            map = new HashMap<String,Object>();
+            deviceConfigProps.put(createId(pluginId, deviceId), map);
+        }
+        if (!map.containsKey(name) || overwrite) {
+            map.put(name, value);
+        }
     }
 
     @Override
@@ -98,5 +108,9 @@ public class MockDeviceManager implements DeviceManager {
     @Override
     public void writeDeviceTelemetry(String s, String s1, String s2, String s3, Map<String, TemporalValue> map) {
 
+    }
+
+    protected String createId(String pluginId, String deviceId) {
+        return pluginId + ":" + deviceId;
     }
 }
