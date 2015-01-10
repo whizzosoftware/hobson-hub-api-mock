@@ -82,17 +82,7 @@ public class MockPluginManager implements PluginManager {
     }
 
     @Override
-    public void registerForPluginConfigurationUpdates(String s, PluginConfigurationListener pluginConfigurationListener) {
-
-    }
-
-    @Override
     public void reloadPlugin(String s, String s1, String s2) {
-
-    }
-
-    @Override
-    public void unregisterForPluginConfigurationUpdates(String s, PluginConfigurationListener pluginConfigurationListener) {
 
     }
 }

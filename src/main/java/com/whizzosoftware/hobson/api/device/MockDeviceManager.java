@@ -15,8 +15,17 @@ import com.whizzosoftware.hobson.api.variable.telemetry.TemporalValue;
 import java.util.*;
 
 public class MockDeviceManager implements DeviceManager {
-    public List<HobsonDevice> publishedDevices = new ArrayList<>();
     public final Map<String,Map<String,Object>> deviceConfigProps = new HashMap<>();
+
+    private MockDevicePublisher publisher;
+
+    public MockDeviceManager() {
+        this(new MockDevicePublisher());
+    }
+
+    public MockDeviceManager(MockDevicePublisher publisher) {
+        this.publisher = publisher;
+    }
 
     @Override
     public void enableDeviceTelemetry(String s, String s1, String s2, String s3, boolean b) {
@@ -25,7 +34,7 @@ public class MockDeviceManager implements DeviceManager {
 
     @Override
     public Collection<HobsonDevice> getAllDevices(String s, String s1) {
-        return publishedDevices;
+        return publisher.getPublishedDevices();
     }
 
     @Override
@@ -59,6 +68,11 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
+    public DevicePublisher getPublisher() {
+        return null;
+    }
+
+    @Override
     public Map<String, Collection<TemporalValue>> getDeviceTelemetry(String s, String s1, String s2, String s3, long l, TelemetryInterval telemetryInterval) {
         return null;
     }
@@ -87,21 +101,6 @@ public class MockDeviceManager implements DeviceManager {
 
     @Override
     public void setDeviceName(String s, String s1, String s2, String s3, String s4) {
-
-    }
-
-    @Override
-    public void publishDevice(HobsonPlugin plugin, HobsonDevice device) {
-        publishedDevices.add(device);
-    }
-
-    @Override
-    public void unpublishDevice(HobsonPlugin hobsonPlugin, String s) {
-
-    }
-
-    @Override
-    public void unpublishAllDevices(HobsonPlugin hobsonPlugin) {
 
     }
 
