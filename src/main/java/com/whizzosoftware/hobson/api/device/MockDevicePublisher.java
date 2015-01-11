@@ -9,28 +9,53 @@ package com.whizzosoftware.hobson.api.device;
 
 import com.whizzosoftware.hobson.api.plugin.HobsonPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class MockDevicePublisher implements DevicePublisher {
-    public List<HobsonDevice> publishedDevices = new ArrayList<>();
+    public final Map<String,Map<String,HobsonDevice>> publishedDevices = new HashMap<>();
 
-    public List<HobsonDevice> getPublishedDevices() {
-        return publishedDevices;
+    public Collection<HobsonDevice> getPublishedDevices() {
+        List<HobsonDevice> results = new ArrayList<>();
+        for (Map<String,HobsonDevice> devices : publishedDevices.values()) {
+            results.addAll(devices.values());
+        }
+        return results;
+    }
+
+    public HobsonDevice getPublishedDevice(String pluginId, String deviceId) {
+        HobsonDevice result = null;
+        Map<String,HobsonDevice> map = publishedDevices.get(pluginId);
+        if (map != null) {
+            result = map.get(deviceId);
+        }
+
+        if (result != null) {
+            return result;
+        } else {
+            throw new DeviceNotFoundException(pluginId, deviceId);
+        }
     }
 
     @Override
     public void publishDevice(HobsonPlugin plugin, HobsonDevice device) {
-        publishedDevices.add(device);
+        Map<String,HobsonDevice> deviceMap = publishedDevices.get(plugin.getId());
+        if (deviceMap == null) {
+            deviceMap = new HashMap<>();
+            publishedDevices.put(plugin.getId(), deviceMap);
+        }
+        deviceMap.put(device.getId(), device);
     }
 
     @Override
-    public void unpublishDevice(HobsonPlugin hobsonPlugin, String s) {
-
+    public void unpublishDevice(HobsonPlugin plugin, String deviceId) {
+        Map<String,HobsonDevice> deviceMap = publishedDevices.get(plugin.getId());
+        if (deviceMap != null) {
+            deviceMap.remove(deviceId);
+        }
     }
 
     @Override
     public void unpublishAllDevices(HobsonPlugin hobsonPlugin) {
-
+        publishedDevices.clear();
     }
 }

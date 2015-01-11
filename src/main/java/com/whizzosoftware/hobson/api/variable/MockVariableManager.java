@@ -72,6 +72,6 @@ public class MockVariableManager implements VariableManager {
 
     @Override
     public VariablePublisher getPublisher() {
-        return null;
+        return publisher;
     }
 }

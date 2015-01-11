@@ -48,8 +48,8 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
-    public HobsonDevice getDevice(String s, String s1, String s2, String s3) {
-        return null;
+    public HobsonDevice getDevice(String userId, String hubId, String pluginId, String deviceId) {
+        return publisher.getPublishedDevice(pluginId, deviceId);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class MockDeviceManager implements DeviceManager {
 
     @Override
     public DevicePublisher getPublisher() {
-        return null;
+        return publisher;
     }
 
     @Override
