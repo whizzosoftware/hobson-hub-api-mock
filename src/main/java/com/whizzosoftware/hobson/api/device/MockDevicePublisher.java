@@ -22,6 +22,14 @@ public class MockDevicePublisher implements DevicePublisher {
         return results;
     }
 
+    public Collection<HobsonDevice> getPublishedDevices(String pluginId) {
+        Map<String,HobsonDevice> deviceMap = publishedDevices.get(pluginId);
+        if (deviceMap != null) {
+            return deviceMap.values();
+        }
+        return null;
+    }
+
     public HobsonDevice getPublishedDevice(String pluginId, String deviceId) {
         HobsonDevice result = null;
         Map<String,HobsonDevice> map = publishedDevices.get(pluginId);

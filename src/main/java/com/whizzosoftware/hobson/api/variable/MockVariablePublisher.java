@@ -79,6 +79,10 @@ public class MockVariablePublisher implements VariablePublisher {
         return publishedDeviceVariables;
     }
 
+    public Map<String,HobsonVariable> getPublishedDeviceVariables(String pluginId, String deviceId) {
+        return publishedDeviceVariables.get(pluginId + ":" + deviceId);
+    }
+
     public void clearPublishedDeviceVariables() {
         publishedDeviceVariables.clear();
     }

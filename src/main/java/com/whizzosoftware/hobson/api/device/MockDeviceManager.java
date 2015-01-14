@@ -8,7 +8,6 @@
 package com.whizzosoftware.hobson.api.device;
 
 import com.whizzosoftware.hobson.api.config.Configuration;
-import com.whizzosoftware.hobson.api.plugin.HobsonPlugin;
 import com.whizzosoftware.hobson.api.variable.telemetry.TelemetryInterval;
 import com.whizzosoftware.hobson.api.variable.telemetry.TemporalValue;
 
@@ -28,22 +27,21 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
-    public void enableDeviceTelemetry(String s, String s1, String s2, String s3, boolean b) {
-
+    public void enableDeviceTelemetry(String userId, String hubId, String pluginId, String deviceId, boolean enabled) {
     }
 
     @Override
-    public Collection<HobsonDevice> getAllDevices(String s, String s1) {
+    public Collection<HobsonDevice> getAllDevices(String userId, String hubId) {
         return publisher.getPublishedDevices();
     }
 
     @Override
-    public Collection<HobsonDevice> getAllPluginDevices(String s, String s1, String s2) {
-        return null;
+    public Collection<HobsonDevice> getAllPluginDevices(String userId, String hubId, String pluginId) {
+        return publisher.getPublishedDevices(pluginId);
     }
 
     @Override
-    public Collection<HobsonDevice> getAllTelemetryEnabledDevices(String s, String s1) {
+    public Collection<HobsonDevice> getAllTelemetryEnabledDevices(String userId, String hubId) {
         return null;
     }
 
@@ -53,7 +51,7 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
-    public Configuration getDeviceConfiguration(String s, String s1, String s2, String s3) {
+    public Configuration getDeviceConfiguration(String userId, String hubId, String pluginId, String deviceId) {
         return null;
     }
 
@@ -73,17 +71,17 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
-    public Map<String, Collection<TemporalValue>> getDeviceTelemetry(String s, String s1, String s2, String s3, long l, TelemetryInterval telemetryInterval) {
+    public Map<String,Collection<TemporalValue>> getDeviceTelemetry(String userId, String hubId, String pluginId, String deviceId, long endTime, TelemetryInterval interval) {
         return null;
     }
 
     @Override
-    public boolean hasDevice(String s, String s1, String s2, String s3) {
+    public boolean hasDevice(String userId, String hubId, String pluginId, String deviceId) {
         return false;
     }
 
     @Override
-    public boolean isDeviceTelemetryEnabled(String s, String s1, String s2, String s3) {
+    public boolean isDeviceTelemetryEnabled(String userId, String hubId, String pluginId, String deviceId) {
         return false;
     }
 
@@ -91,7 +89,7 @@ public class MockDeviceManager implements DeviceManager {
     public void setDeviceConfigurationProperty(String userId, String hubId, String pluginId, String deviceId, String name, Object value, boolean overwrite) {
         Map<String,Object> map = deviceConfigProps.get(createId(pluginId, deviceId));
         if (map == null) {
-            map = new HashMap<String,Object>();
+            map = new HashMap<>();
             deviceConfigProps.put(createId(pluginId, deviceId), map);
         }
         if (!map.containsKey(name) || overwrite) {
@@ -100,13 +98,11 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
-    public void setDeviceName(String s, String s1, String s2, String s3, String s4) {
-
+    public void setDeviceName(String userId, String hubId, String pluginId, String deviceId, String name) {
     }
 
     @Override
-    public void writeDeviceTelemetry(String s, String s1, String s2, String s3, Map<String, TemporalValue> map) {
-
+    public void writeDeviceTelemetry(String userId, String hubId, String pluginId, String deviceId, Map<String,TemporalValue> values) {
     }
 
     protected String createId(String pluginId, String deviceId) {
