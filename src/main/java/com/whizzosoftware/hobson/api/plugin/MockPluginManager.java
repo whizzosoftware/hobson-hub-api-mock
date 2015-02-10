@@ -10,6 +10,7 @@ package com.whizzosoftware.hobson.api.plugin;
 import com.whizzosoftware.hobson.api.config.Configuration;
 import com.whizzosoftware.hobson.api.config.ConfigurationProperty;
 import com.whizzosoftware.hobson.api.config.ConfigurationPropertyMetaData;
+import com.whizzosoftware.hobson.api.image.ImageInputStream;
 
 import java.io.File;
 import java.util.HashMap;
@@ -36,6 +37,11 @@ public class MockPluginManager implements PluginManager {
     @Override
     public Configuration getPluginConfiguration(String userId, String hubId, HobsonPlugin plugin) {
         return getPluginConfiguration(userId, hubId, plugin.getId());
+    }
+
+    @Override
+    public ImageInputStream getPluginIcon(String userId, String hubId, String pluginId) {
+        return null;
     }
 
     @Override
