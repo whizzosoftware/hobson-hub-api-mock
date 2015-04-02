@@ -13,6 +13,7 @@ import com.whizzosoftware.hobson.api.config.ConfigurationPropertyMetaData;
 import com.whizzosoftware.hobson.api.image.ImageInputStream;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,12 +26,17 @@ public class MockPluginManager implements PluginManager {
     }
 
     @Override
+    public Collection<HobsonPlugin> getAllPlugins(String userId, String hubId) {
+        return null;
+    }
+
+    @Override
     public HobsonPlugin getPlugin(String s, String s1, String s2) {
         return null;
     }
 
     @Override
-    public PluginList getPlugins(String s, String s1, boolean b) {
+    public PluginList getPluginDescriptors(String s, String s1, boolean b) {
         return null;
     }
 
@@ -65,6 +71,11 @@ public class MockPluginManager implements PluginManager {
     @Override
     public String getPluginCurrentVersion(String s, String s1, String s2) {
         return null;
+    }
+
+    @Override
+    public void publishPlugin(String userId, String hubId, HobsonPlugin plugin) {
+
     }
 
     @Override

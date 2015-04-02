@@ -7,35 +7,34 @@
  *******************************************************************************/
 package com.whizzosoftware.hobson.api.variable;
 
-import com.whizzosoftware.hobson.api.variable.telemetry.TelemetryInterval;
-import com.whizzosoftware.hobson.api.variable.telemetry.TemporalValue;
+import com.whizzosoftware.hobson.api.device.DeviceContext;
+import com.whizzosoftware.hobson.api.plugin.PluginContext;
 
 import java.util.*;
 
 public class MockVariableManager implements VariableManager {
-    private MockVariablePublisher publisher;
+    private final Map<String,HobsonVariable> publishedGlobalVariables = new HashMap<>();
+    private final Map<String,Map<String,HobsonVariable>> publishedDeviceVariables = new HashMap<>();
+    private final List<VariableUpdate> variableUpdates = new ArrayList<>();
 
-    public MockVariableManager() {
-        this(new MockVariablePublisher());
-    }
-
-    public MockVariableManager(MockVariablePublisher publisher) {
-        this.publisher = publisher;
+    @Override
+    public Collection<HobsonVariable> getAllVariables(String userId, String hubId) {
+        return null;
     }
 
     @Override
     public Collection<HobsonVariable> getGlobalVariables(String userId, String hubId) {
-        return publisher.getPublishedGlobalVariables().values();
+        return getPublishedGlobalVariables().values();
     }
 
     @Override
     public HobsonVariable getGlobalVariable(String userId, String hubId, String name) {
-        return publisher.getPublishedGlobalVariables().get(name);
+        return getPublishedGlobalVariables().get(name);
     }
 
     @Override
     public Collection<HobsonVariable> getDeviceVariables(String userId, String hubId, String pluginId, String deviceId) {
-        Map<String,HobsonVariable> m = publisher.getPublishedDeviceVariables().get(pluginId + ":" + deviceId);
+        Map<String,HobsonVariable> m = getPublishedDeviceVariables().get(pluginId + ":" + deviceId);
         return (m != null) ? m.values() : null;
     }
 
@@ -46,7 +45,7 @@ public class MockVariableManager implements VariableManager {
 
     @Override
     public HobsonVariable getDeviceVariable(String userId, String hubId, String pluginId, String deviceId, String name) {
-        Map<String,HobsonVariable> m = publisher.getPublishedDeviceVariables().get(pluginId + ":" + deviceId);
+        Map<String,HobsonVariable> m = getPublishedDeviceVariables().get(pluginId + ":" + deviceId);
         return (m != null) ? m.get(name) : null;
     }
 
@@ -56,27 +55,89 @@ public class MockVariableManager implements VariableManager {
     }
 
     @Override
-    public Long setDeviceVariable(String userId, String hubId, String pluginId, String deviceId, String name, Object value) {
+    public void publishGlobalVariable(PluginContext ctx, String name, Object value, HobsonVariable.Mask mask) {
+        publishedGlobalVariables.put(name, new MockHobsonVariable(ctx.getPluginId(), name, value, mask));
+    }
+
+    @Override
+    public void unpublishGlobalVariable(PluginContext ctx, String name) {
+        publishedGlobalVariables.remove(name);
+    }
+
+    @Override
+    public void publishDeviceVariable(DeviceContext ctx, String name, Object value, HobsonVariable.Mask mask) {
+        Map<String,HobsonVariable> m = publishedDeviceVariables.get(ctx.getPluginId() + ":" + ctx.getDeviceId());
+        if (m == null) {
+            m = new HashMap<>();
+            publishedDeviceVariables.put(ctx.getPluginId() + ":" + ctx.getDeviceId(), m);
+        }
+        m.put(name, new MockHobsonVariable(ctx.getPluginId(), name, value, mask));
+    }
+
+    @Override
+    public void unpublishDeviceVariable(DeviceContext ctx, String name) {
+        Map<String,HobsonVariable> m = publishedDeviceVariables.get(ctx.getPluginId() + ":" + ctx.getDeviceId());
+        if (m != null) {
+            m.remove(name);
+        }
+    }
+
+    @Override
+    public void unpublishAllDeviceVariables(DeviceContext ctx) {
+        publishedDeviceVariables.remove(ctx.getPluginId() + ":" + ctx.getDeviceId());
+    }
+
+    @Override
+    public void unpublishAllPluginVariables(PluginContext ctx) {
+
+    }
+
+    @Override
+    public Long setGlobalVariable(PluginContext ctx, String name, Object value) {
         return null;
     }
 
     @Override
-    public Map<String, Long> setDeviceVariables(String userId, String hubId, String pluginId, String deviceId, Map<String, Object> values) {
+    public Map<String, Long> setGlobalVariables(PluginContext ctx, Map<String, Object> values) {
         return null;
     }
 
     @Override
-    public void writeDeviceVariableTelemetry(String userId, String hubId, String pluginId, String deviceId, String name, Object value, long time) {
-
-    }
-
-    @Override
-    public Collection<TemporalValue> getDeviceVariableTelemetry(String userId, String hubId, String pluginId, String deviceId, String name, long endTime, TelemetryInterval interval) {
+    public Long setDeviceVariable(DeviceContext ctx, String name, Object value) {
         return null;
     }
 
     @Override
-    public VariablePublisher getPublisher() {
-        return publisher;
+    public Map<String, Long> setDeviceVariables(DeviceContext ctx, Map<String, Object> values) {
+        return null;
+    }
+
+    @Override
+    public void confirmVariableUpdates(String userId, String hubId, List<VariableUpdate> updates) {
+
+    }
+
+    public Map<String,HobsonVariable> getPublishedGlobalVariables() {
+        return publishedGlobalVariables;
+    }
+
+    public Map<String,Map<String,HobsonVariable>> getPublishedDeviceVariables() {
+        return publishedDeviceVariables;
+    }
+
+    public Map<String,HobsonVariable> getPublishedDeviceVariables(String pluginId, String deviceId) {
+        return publishedDeviceVariables.get(pluginId + ":" + deviceId);
+    }
+
+    public void clearPublishedDeviceVariables() {
+        publishedDeviceVariables.clear();
+    }
+
+    public List<VariableUpdate> getVariableUpdates() {
+        return variableUpdates;
+    }
+
+    public void clearVariableUpdates() {
+        variableUpdates.clear();
     }
 }

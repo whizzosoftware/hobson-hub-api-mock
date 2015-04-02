@@ -3,7 +3,7 @@ package com.whizzosoftware.hobson.api.action;
 import java.util.Collection;
 import java.util.Map;
 
-public class MockActionManager implements ActionManager, ActionPublisher {
+public class MockActionManager implements ActionManager {
     private int setVariableCount;
     private int logCalls;
 
@@ -43,11 +43,6 @@ public class MockActionManager implements ActionManager, ActionPublisher {
     @Override
     public HobsonAction getAction(String userId, String hubId, String pluginId, String actionId) {
         return null;
-    }
-
-    @Override
-    public ActionPublisher getPublisher() {
-        return this;
     }
 
     public int getLogCalls() {
