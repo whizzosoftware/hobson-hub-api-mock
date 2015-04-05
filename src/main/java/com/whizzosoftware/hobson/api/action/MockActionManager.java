@@ -1,5 +1,8 @@
 package com.whizzosoftware.hobson.api.action;
 
+import com.whizzosoftware.hobson.api.hub.HubContext;
+import com.whizzosoftware.hobson.api.plugin.PluginContext;
+
 import java.util.Collection;
 import java.util.Map;
 
@@ -17,31 +20,31 @@ public class MockActionManager implements ActionManager {
     }
 
     @Override
-    public void publishAction(String userId, String hubId, HobsonAction action) {
+    public void publishAction(HobsonAction action) {
 
     }
 
     @Override
-    public void unpublishAllActions(String userId, String hubId, String pluginId) {
+    public void unpublishAllActions(PluginContext ctx) {
 
     }
 
     @Override
-    public void executeAction(String userId, String hubId, String pluginId, String actionId, Map<String, Object> properties) {
-        if ("log".equals(actionId)) {
+    public void executeAction(ActionContext ctx, Map<String, Object> properties) {
+        if ("log".equals(ctx.getActionId())) {
             logCalls++;
-        } else if ("setVariable".equals(actionId)) {
+        } else if ("setVariable".equals(ctx.getActionId())) {
             setVariableCount++;
         }
     }
 
     @Override
-    public Collection<HobsonAction> getAllActions(String userId, String hubId) {
+    public Collection<HobsonAction> getAllActions(HubContext ctx) {
         return null;
     }
 
     @Override
-    public HobsonAction getAction(String userId, String hubId, String pluginId, String actionId) {
+    public HobsonAction getAction(ActionContext ctx) {
         return null;
     }
 

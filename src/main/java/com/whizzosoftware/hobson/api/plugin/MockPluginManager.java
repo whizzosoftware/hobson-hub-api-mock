@@ -10,6 +10,7 @@ package com.whizzosoftware.hobson.api.plugin;
 import com.whizzosoftware.hobson.api.config.Configuration;
 import com.whizzosoftware.hobson.api.config.ConfigurationProperty;
 import com.whizzosoftware.hobson.api.config.ConfigurationPropertyMetaData;
+import com.whizzosoftware.hobson.api.hub.HubContext;
 import com.whizzosoftware.hobson.api.image.ImageInputStream;
 
 import java.io.File;
@@ -21,44 +22,44 @@ public class MockPluginManager implements PluginManager {
     private final Map<String,Configuration> configMap = new HashMap<>();
 
     @Override
-    public File getDataFile(String s, String s1) {
+    public File getDataFile(PluginContext ctx, String filename) {
         return null;
     }
 
     @Override
-    public Collection<HobsonPlugin> getAllPlugins(String userId, String hubId) {
+    public Collection<HobsonPlugin> getAllPlugins(HubContext ctx) {
         return null;
     }
 
     @Override
-    public HobsonPlugin getPlugin(String s, String s1, String s2) {
+    public HobsonPlugin getPlugin(PluginContext ctx) {
         return null;
     }
 
     @Override
-    public PluginList getPluginDescriptors(String s, String s1, boolean b) {
+    public PluginList getPluginDescriptors(HubContext ctx, boolean includeRemoteInfo) {
         return null;
     }
 
     @Override
-    public Configuration getPluginConfiguration(String userId, String hubId, HobsonPlugin plugin) {
-        return getPluginConfiguration(userId, hubId, plugin.getId());
+    public Configuration getPluginConfiguration(HobsonPlugin plugin) {
+        return getPluginConfiguration(plugin.getContext());
     }
 
     @Override
-    public ImageInputStream getPluginIcon(String userId, String hubId, String pluginId) {
+    public ImageInputStream getPluginIcon(PluginContext ctx) {
         return null;
     }
 
     @Override
-    public Configuration getPluginConfiguration(String userId, String hubId, String pluginId) {
-        return configMap.get(pluginId);
+    public Configuration getPluginConfiguration(PluginContext ctx) {
+        return configMap.get(ctx.getPluginId());
     }
 
     @Override
-    public Object getPluginConfigurationProperty(String userId, String hubId, String pluginId, String name) {
+    public Object getPluginConfigurationProperty(PluginContext ctx, String name) {
         Object value = null;
-        Configuration c = getPluginConfiguration(userId, hubId, pluginId);
+        Configuration c = getPluginConfiguration(ctx);
         if (c != null) {
             ConfigurationProperty cp = c.getProperty(name);
             if (cp != null) {
@@ -69,37 +70,37 @@ public class MockPluginManager implements PluginManager {
     }
 
     @Override
-    public String getPluginCurrentVersion(String s, String s1, String s2) {
+    public String getPluginCurrentVersion(PluginContext ctx) {
         return null;
     }
 
     @Override
-    public void publishPlugin(String userId, String hubId, HobsonPlugin plugin) {
+    public void publishPlugin(HobsonPlugin plugin) {
 
     }
 
     @Override
-    public void installPlugin(String s, String s1, String s2, String s3) {
+    public void installPlugin(PluginContext ctx, String pluginVersion) {
 
     }
 
     @Override
-    public void setPluginConfiguration(String userId, String hubId, String pluginId, Configuration config) {
-        configMap.put(pluginId, config);
+    public void setPluginConfiguration(PluginContext ctx, Configuration config) {
+        configMap.put(ctx.getPluginId(), config);
     }
 
     @Override
-    public void setPluginConfigurationProperty(String userId, String hubId, String pluginId, String name, Object value) {
-        Configuration config = configMap.get(pluginId);
+    public void setPluginConfigurationProperty(PluginContext ctx, String name, Object value) {
+        Configuration config = configMap.get(ctx.getPluginId());
         if (config == null) {
             config = new Configuration();
-            configMap.put(pluginId, config);
+            configMap.put(ctx.getPluginId(), config);
         }
         config.addProperty(new ConfigurationProperty(new ConfigurationPropertyMetaData(name), value));
     }
 
     @Override
-    public void reloadPlugin(String s, String s1, String s2) {
+    public void reloadPlugin(PluginContext ctx) {
 
     }
 }

@@ -8,7 +8,9 @@
 package com.whizzosoftware.hobson.api.device;
 
 import com.whizzosoftware.hobson.api.config.Configuration;
-import com.whizzosoftware.hobson.api.plugin.HobsonPlugin;
+import com.whizzosoftware.hobson.api.hub.HubContext;
+import com.whizzosoftware.hobson.api.plugin.EventLoopExecutor;
+import com.whizzosoftware.hobson.api.plugin.PluginContext;
 
 import java.util.*;
 
@@ -18,34 +20,34 @@ public class MockDeviceManager implements DeviceManager {
     public final Map<String,Map<String,HobsonDevice>> publishedDevices = new HashMap<>();
 
     @Override
-    public Collection<HobsonDevice> getAllDevices(String userId, String hubId) {
+    public Collection<HobsonDevice> getAllDevices(HubContext ctx) {
         return getPublishedDevices();
     }
 
     @Override
-    public Collection<HobsonDevice> getAllPluginDevices(String userId, String hubId, String pluginId) {
-        return getPublishedDevices(pluginId);
+    public Collection<HobsonDevice> getAllDevices(PluginContext ctx) {
+        return getPublishedDevices();
     }
 
     @Override
-    public Collection<HobsonDevice> getAllTelemetryEnabledDevices(String userId, String hubId) {
+    public Collection<HobsonDevice> getAllTelemetryEnabledDevices(HubContext ctx) {
         return null;
     }
 
     @Override
-    public HobsonDevice getDevice(String userId, String hubId, String pluginId, String deviceId) {
-        return getPublishedDevice(pluginId, deviceId);
+    public HobsonDevice getDevice(DeviceContext ctx) {
+        return getPublishedDevice(ctx);
     }
 
     @Override
-    public Configuration getDeviceConfiguration(String userId, String hubId, String pluginId, String deviceId) {
+    public Configuration getDeviceConfiguration(DeviceContext ctx) {
         return null;
     }
 
     @Override
-    public Object getDeviceConfigurationProperty(String userId, String hubId, String pluginId, String deviceId, String name) {
+    public Object getDeviceConfigurationProperty(DeviceContext ctx, String name) {
         Object value = null;
-        Map<String,Object> map = deviceConfigProps.get(createId(pluginId, deviceId));
+        Map<String,Object> map = deviceConfigProps.get(createId(ctx.getPluginId(), ctx.getDeviceId()));
         if (map != null) {
             value = map.get(name);
         }
@@ -53,55 +55,56 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
-    public boolean hasDevice(String userId, String hubId, String pluginId, String deviceId) {
+    public boolean hasDevice(DeviceContext ctx) {
         return false;
     }
 
     @Override
-    public boolean isDeviceTelemetryEnabled(String userId, String hubId, String pluginId, String deviceId) {
+    public boolean isDeviceTelemetryEnabled(DeviceContext ctx) {
         return false;
     }
 
     @Override
-    public void publishDevice(String userId, String hubId, HobsonPlugin plugin, HobsonDevice device) {
-        publishDevice(userId, hubId, plugin, device, false);
+    public void publishDevice(HobsonDevice device) {
+        publishDevice(device, false);
     }
 
     @Override
-    public void publishDevice(String userId, String hubId, HobsonPlugin plugin, HobsonDevice device, boolean republish) {
-        Map<String,HobsonDevice> deviceMap = publishedDevices.get(plugin.getId());
+    public void publishDevice(HobsonDevice device, boolean republish) {
+        String pluginId = device.getContext().getPluginId();
+        Map<String,HobsonDevice> deviceMap = publishedDevices.get(pluginId);
         if (deviceMap == null) {
             deviceMap = new HashMap<>();
-            publishedDevices.put(plugin.getId(), deviceMap);
+            publishedDevices.put(pluginId, deviceMap);
         }
-        deviceMap.put(device.getId(), device);
+        deviceMap.put(device.getContext().getDeviceId(), device);
     }
 
     @Override
-    public void setDeviceConfiguration(String userId, String hubId, String pluginId, String deviceId, Configuration config) {
-
-    }
-
-    @Override
-    public void setDeviceConfigurationProperty(String userId, String hubId, String pluginId, String deviceId, String name, Object value, boolean overwrite) {
+    public void setDeviceConfiguration(DeviceContext ctx, Configuration config) {
 
     }
 
     @Override
-    public void setDeviceName(String userId, String hubId, String pluginId, String deviceId, String name) {
+    public void setDeviceConfigurationProperty(DeviceContext ctx, String name, Object value, boolean overwrite) {
 
     }
 
     @Override
-    public void unpublishDevice(String userId, String hubId, HobsonPlugin plugin, String deviceId) {
-        Map<String,HobsonDevice> deviceMap = publishedDevices.get(plugin.getId());
+    public void setDeviceName(DeviceContext ctx, String name) {
+
+    }
+
+    @Override
+    public void unpublishDevice(DeviceContext ctx, EventLoopExecutor executor) {
+        Map<String,HobsonDevice> deviceMap = publishedDevices.get(ctx.getPluginId());
         if (deviceMap != null) {
-            deviceMap.remove(deviceId);
+            deviceMap.remove(ctx.getDeviceId());
         }
     }
 
     @Override
-    public void unpublishAllDevices(String userId, String hubId, HobsonPlugin plugin) {
+    public void unpublishAllDevices(PluginContext ctx, EventLoopExecutor executor) {
         publishedDevices.clear();
     }
 
@@ -125,17 +128,17 @@ public class MockDeviceManager implements DeviceManager {
         return null;
     }
 
-    public HobsonDevice getPublishedDevice(String pluginId, String deviceId) {
+    public HobsonDevice getPublishedDevice(DeviceContext ctx) {
         HobsonDevice result = null;
-        Map<String,HobsonDevice> map = publishedDevices.get(pluginId);
+        Map<String,HobsonDevice> map = publishedDevices.get(ctx.getPluginId());
         if (map != null) {
-            result = map.get(deviceId);
+            result = map.get(ctx.getDeviceId());
         }
 
         if (result != null) {
             return result;
         } else {
-            throw new DeviceNotFoundException(pluginId, deviceId);
+            throw new DeviceNotFoundException(ctx);
         }
     }
 }

@@ -22,42 +22,42 @@ public class MockHubManager implements HubManager, HubRegistrar, LocalHubManager
     }
 
     @Override
-    public HobsonHub getHub(String userId, String hubId) {
+    public HobsonHub getHub(HubContext ctx) {
         return null;
     }
 
     @Override
-    public void setHubDetails(String userId, String hubId, HobsonHub hubDetails) {
+    public void setHubDetails(HobsonHub hubDetails) {
 
     }
 
     @Override
-    public void clearHubDetails(String userId, String hubId) {
+    public void clearHubDetails(HubContext ctx) {
 
     }
 
     @Override
-    public void setHubPassword(String s, String s1, PasswordChange passwordChange) {
+    public void setHubPassword(HubContext ctx, PasswordChange passwordChange) {
 
     }
 
     @Override
-    public boolean authenticateAdmin(String s, String s1, String s2) {
+    public boolean authenticateAdmin(HubContext ctx, String password) {
         return false;
     }
 
     @Override
-    public void sendTestEmail(String userId, String hubId, EmailConfiguration config) {
+    public void sendTestEmail(HubContext ctx, EmailConfiguration config) {
 
     }
 
     @Override
-    public void sendEmail(String userId, String hubId, String recipientAddress, String subject, String body) {
+    public void sendEmail(HubContext ctx, String recipientAddress, String subject, String body) {
 
     }
 
     @Override
-    public LineRange getLog(String userId, String hubId, long startLine, long endLine, Appendable appendable) {
+    public LineRange getLog(HubContext ctx, long startLine, long endLine, Appendable appendable) {
         return null;
     }
 

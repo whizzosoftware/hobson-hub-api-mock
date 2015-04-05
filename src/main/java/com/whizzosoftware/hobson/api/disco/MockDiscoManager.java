@@ -7,14 +7,17 @@
  *******************************************************************************/
 package com.whizzosoftware.hobson.api.disco;
 
+import com.whizzosoftware.hobson.api.hub.HubContext;
+import com.whizzosoftware.hobson.api.plugin.PluginContext;
+
 public class MockDiscoManager implements DiscoManager {
     @Override
-    public void requestDeviceAdvertisementSnapshot(String userId, String hubId, String pluginId, String protocolId) {
+    public void requestDeviceAdvertisementSnapshot(PluginContext ctx, String protocolId) {
 
     }
 
     @Override
-    public void fireDeviceAdvertisement(String userId, String hubId, DeviceAdvertisement advertisement) {
+    public void fireDeviceAdvertisement(HubContext ctx, DeviceAdvertisement advertisement) {
 
     }
 }
