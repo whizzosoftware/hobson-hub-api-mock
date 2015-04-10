@@ -9,7 +9,7 @@ public class MockTaskManager implements TaskManager {
     private Map<String,HobsonTask> publishedTasks = new HashMap<>();
 
     @Override
-    public void addTask(PluginContext ctx, Object config) {
+    public void createTask(PluginContext ctx, Object config) {
 
     }
 

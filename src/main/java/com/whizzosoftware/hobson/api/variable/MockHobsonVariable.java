@@ -13,9 +13,14 @@ public class MockHobsonVariable implements HobsonVariable {
     private String name;
     private Object value;
     private Mask mask;
+    private String proxyType;
     private Long lastUpdate;
 
     public MockHobsonVariable(String pluginId, String name, Object value, Mask mask) {
+        this(pluginId, name, value, mask, null);
+    }
+
+    public MockHobsonVariable(String pluginId, String name, Object value, Mask mask, String proxyType) {
         this(pluginId, null, name, value, mask);
     }
 
@@ -30,6 +35,16 @@ public class MockHobsonVariable implements HobsonVariable {
     @Override
     public String getPluginId() {
         return pluginId;
+    }
+
+    @Override
+    public boolean hasProxyType() {
+        return (proxyType != null);
+    }
+
+    @Override
+    public String getProxyType() {
+        return proxyType;
     }
 
     @Override
