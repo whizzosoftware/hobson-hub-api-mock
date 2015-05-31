@@ -30,11 +30,6 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
-    public Collection<HobsonDevice> getAllTelemetryEnabledDevices(HubContext ctx) {
-        return null;
-    }
-
-    @Override
     public HobsonDevice getDevice(DeviceContext ctx) {
         return getPublishedDevice(ctx);
     }
@@ -56,11 +51,6 @@ public class MockDeviceManager implements DeviceManager {
 
     @Override
     public boolean hasDevice(DeviceContext ctx) {
-        return false;
-    }
-
-    @Override
-    public boolean isDeviceTelemetryEnabled(DeviceContext ctx) {
         return false;
     }
 

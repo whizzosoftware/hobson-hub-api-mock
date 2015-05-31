@@ -60,11 +60,6 @@ public class MockVariableManager implements VariableManager {
     }
 
     @Override
-    public Collection<String> getDeviceVariableChangeIds(DeviceContext ctx) {
-        return null;
-    }
-
-    @Override
     public HobsonVariable getDeviceVariable(DeviceContext ctx, String name) {
         return getDeviceVariable(ctx, name, null);
     }

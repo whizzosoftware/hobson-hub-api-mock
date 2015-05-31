@@ -13,7 +13,7 @@ import com.whizzosoftware.hobson.api.config.EmailConfiguration;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class MockHubManager implements HubManager, HubRegistrar, LocalHubManager {
+public class MockHubManager implements HubManager, LocalHubManager {
     private EmailConfiguration emailConfiguration;
 
     @Override
@@ -37,16 +37,6 @@ public class MockHubManager implements HubManager, HubRegistrar, LocalHubManager
     }
 
     @Override
-    public void setHubPassword(HubContext ctx, PasswordChange passwordChange) {
-
-    }
-
-    @Override
-    public boolean authenticateAdmin(HubContext ctx, String password) {
-        return false;
-    }
-
-    @Override
     public void sendTestEmail(HubContext ctx, EmailConfiguration config) {
 
     }
@@ -62,13 +52,18 @@ public class MockHubManager implements HubManager, HubRegistrar, LocalHubManager
     }
 
     @Override
-    public HubRegistrar getRegistrar() {
+    public LocalHubManager getLocalManager() {
         return this;
     }
 
     @Override
-    public LocalHubManager getLocalManager() {
-        return this;
+    public boolean authenticateLocal(HubContext ctx, String password) {
+        return false;
+    }
+
+    @Override
+    public void setLocalPassword(HubContext ctx, PasswordChange change) {
+
     }
 
     @Override
@@ -87,7 +82,12 @@ public class MockHubManager implements HubManager, HubRegistrar, LocalHubManager
     }
 
     @Override
-    public void removeHub(String userId, String hubId) {
+    public void removeHub(HubContext ctx) {
 
+    }
+
+    @Override
+    public boolean authenticateHub(HubContext ctx, HubCredentials credentials) {
+        return false;
     }
 }
