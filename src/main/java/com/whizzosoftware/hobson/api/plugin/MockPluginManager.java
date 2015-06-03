@@ -37,7 +37,12 @@ public class MockPluginManager implements PluginManager {
     }
 
     @Override
-    public PluginList getPluginDescriptors(HubContext ctx, boolean includeRemoteInfo) {
+    public Collection<PluginDescriptor> getLocalPluginDescriptors(HubContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Collection<PluginDescriptor> getRemotePluginDescriptors(HubContext ctx) {
         return null;
     }
 

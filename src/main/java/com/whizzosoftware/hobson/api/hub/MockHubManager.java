@@ -9,6 +9,7 @@ package com.whizzosoftware.hobson.api.hub;
 
 
 import com.whizzosoftware.hobson.api.config.EmailConfiguration;
+import com.whizzosoftware.hobson.api.property.PropertyContainer;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,22 +28,17 @@ public class MockHubManager implements HubManager, LocalHubManager {
     }
 
     @Override
-    public void setHubDetails(HobsonHub hubDetails) {
-
-    }
-
-    @Override
-    public void clearHubDetails(HubContext ctx) {
-
-    }
-
-    @Override
     public void sendTestEmail(HubContext ctx, EmailConfiguration config) {
 
     }
 
     @Override
     public void sendEmail(HubContext ctx, String recipientAddress, String subject, String body) {
+
+    }
+
+    @Override
+    public void setConfiguration(HubContext ctx, PropertyContainer configuration) {
 
     }
 
@@ -82,6 +78,11 @@ public class MockHubManager implements HubManager, LocalHubManager {
     }
 
     @Override
+    public void deleteConfiguration(HubContext ctx) {
+
+    }
+
+    @Override
     public void removeHub(HubContext ctx) {
 
     }
@@ -89,5 +90,10 @@ public class MockHubManager implements HubManager, LocalHubManager {
     @Override
     public boolean authenticateHub(HubContext ctx, HubCredentials credentials) {
         return false;
+    }
+
+    @Override
+    public PropertyContainer getConfiguration(HubContext ctx) {
+        return null;
     }
 }
