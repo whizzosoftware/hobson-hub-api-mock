@@ -1,8 +1,8 @@
 package com.whizzosoftware.hobson.api.device;
 
-import com.whizzosoftware.hobson.api.config.Configuration;
-import com.whizzosoftware.hobson.api.config.ConfigurationPropertyMetaData;
 import com.whizzosoftware.hobson.api.plugin.HobsonPlugin;
+import com.whizzosoftware.hobson.api.property.PropertyContainer;
+import com.whizzosoftware.hobson.api.property.TypedProperty;
 
 public class MockHobsonDevice extends AbstractHobsonDevice {
     public MockHobsonDevice(HobsonPlugin plugin, String id) {
@@ -10,8 +10,8 @@ public class MockHobsonDevice extends AbstractHobsonDevice {
     }
 
     @Override
-    public ConfigurationPropertyMetaData[] createConfigurationPropertyMetaData() {
-        return new ConfigurationPropertyMetaData[0];
+    public TypedProperty[] createConfigurationPropertyMetaData() {
+        return new TypedProperty[0];
     }
 
     @Override
@@ -20,7 +20,7 @@ public class MockHobsonDevice extends AbstractHobsonDevice {
     }
 
     @Override
-    public void onStartup(Configuration config) {
+    public void onStartup(PropertyContainer config) {
 
     }
 

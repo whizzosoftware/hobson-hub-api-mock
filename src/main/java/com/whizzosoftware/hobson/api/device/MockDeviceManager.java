@@ -7,10 +7,10 @@
  *******************************************************************************/
 package com.whizzosoftware.hobson.api.device;
 
-import com.whizzosoftware.hobson.api.config.Configuration;
 import com.whizzosoftware.hobson.api.hub.HubContext;
 import com.whizzosoftware.hobson.api.plugin.EventLoopExecutor;
 import com.whizzosoftware.hobson.api.plugin.PluginContext;
+import com.whizzosoftware.hobson.api.property.PropertyContainer;
 
 import java.util.*;
 
@@ -35,7 +35,7 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
-    public Configuration getDeviceConfiguration(DeviceContext ctx) {
+    public PropertyContainer getDeviceConfiguration(DeviceContext ctx) {
         return null;
     }
 
@@ -71,7 +71,7 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
-    public void setDeviceConfiguration(DeviceContext ctx, Configuration config) {
+    public void setDeviceConfiguration(DeviceContext ctx, PropertyContainer config) {
 
     }
 

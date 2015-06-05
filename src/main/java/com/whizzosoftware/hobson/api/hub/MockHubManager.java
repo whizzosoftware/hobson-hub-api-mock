@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class MockHubManager implements HubManager, LocalHubManager {
-    private EmailConfiguration emailConfiguration;
-
     @Override
     public Collection<HobsonHub> getHubs(String userId) {
         return new ArrayList<>();

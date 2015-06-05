@@ -7,11 +7,9 @@
  *******************************************************************************/
 package com.whizzosoftware.hobson.api.plugin;
 
-import com.whizzosoftware.hobson.api.config.Configuration;
-import com.whizzosoftware.hobson.api.config.ConfigurationProperty;
-import com.whizzosoftware.hobson.api.config.ConfigurationPropertyMetaData;
 import com.whizzosoftware.hobson.api.hub.HubContext;
 import com.whizzosoftware.hobson.api.image.ImageInputStream;
+import com.whizzosoftware.hobson.api.property.PropertyContainer;
 
 import java.io.File;
 import java.util.Collection;
@@ -19,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MockPluginManager implements PluginManager {
-    private final Map<String,Configuration> configMap = new HashMap<>();
+    private final Map<String,PropertyContainer> configMap = new HashMap<>();
 
     @Override
     public File getDataFile(PluginContext ctx, String filename) {
@@ -47,29 +45,21 @@ public class MockPluginManager implements PluginManager {
     }
 
     @Override
-    public Configuration getPluginConfiguration(HobsonPlugin plugin) {
-        return getPluginConfiguration(plugin.getContext());
-    }
-
-    @Override
     public ImageInputStream getPluginIcon(PluginContext ctx) {
         return null;
     }
 
     @Override
-    public Configuration getPluginConfiguration(PluginContext ctx) {
+    public PropertyContainer getPluginConfiguration(PluginContext ctx) {
         return configMap.get(ctx.getPluginId());
     }
 
     @Override
     public Object getPluginConfigurationProperty(PluginContext ctx, String name) {
         Object value = null;
-        Configuration c = getPluginConfiguration(ctx);
+        PropertyContainer c = getPluginConfiguration(ctx);
         if (c != null) {
-            ConfigurationProperty cp = c.getProperty(name);
-            if (cp != null) {
-                value = cp.getValue();
-            }
+            value = c.getPropertyValue(name);
         }
         return value;
     }
@@ -90,18 +80,18 @@ public class MockPluginManager implements PluginManager {
     }
 
     @Override
-    public void setPluginConfiguration(PluginContext ctx, Configuration config) {
+    public void setPluginConfiguration(PluginContext ctx, PropertyContainer config) {
         configMap.put(ctx.getPluginId(), config);
     }
 
     @Override
     public void setPluginConfigurationProperty(PluginContext ctx, String name, Object value) {
-        Configuration config = configMap.get(ctx.getPluginId());
+        PropertyContainer config = configMap.get(ctx.getPluginId());
         if (config == null) {
-            config = new Configuration();
+            config = new PropertyContainer();
             configMap.put(ctx.getPluginId(), config);
         }
-        config.addProperty(new ConfigurationProperty(new ConfigurationPropertyMetaData(name), value));
+        config.setPropertyValue(name, value);
     }
 
     @Override
