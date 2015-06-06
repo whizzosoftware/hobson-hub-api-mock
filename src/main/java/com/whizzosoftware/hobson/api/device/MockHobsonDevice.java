@@ -20,11 +20,6 @@ public class MockHobsonDevice extends AbstractHobsonDevice {
     }
 
     @Override
-    public void onStartup(PropertyContainer config) {
-
-    }
-
-    @Override
     public void onShutdown() {
 
     }
