@@ -10,6 +10,8 @@ package com.whizzosoftware.hobson.api.hub;
 
 import com.whizzosoftware.hobson.api.config.EmailConfiguration;
 import com.whizzosoftware.hobson.api.property.PropertyContainer;
+import com.whizzosoftware.hobson.api.property.PropertyContainerClass;
+import com.whizzosoftware.hobson.api.property.PropertyContainerClassContext;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -92,6 +94,11 @@ public class MockHubManager implements HubManager, LocalHubManager {
 
     @Override
     public PropertyContainer getConfiguration(HubContext ctx) {
+        return null;
+    }
+
+    @Override
+    public PropertyContainerClass getContainerClass(PropertyContainerClassContext ctx) {
         return null;
     }
 }

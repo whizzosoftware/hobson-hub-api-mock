@@ -111,7 +111,7 @@ public class MockTaskManager implements TaskManager {
     }
 
     @Override
-    public void createTask(String name, PropertyContainerSet conditionSet, PropertyContainerSet actionSet) {
+    public void createTask(HubContext ctx, String name, PropertyContainerSet conditionSet, PropertyContainerSet actionSet) {
 
     }
 
