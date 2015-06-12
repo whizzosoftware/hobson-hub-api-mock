@@ -8,7 +8,6 @@
 package com.whizzosoftware.hobson.api.hub;
 
 
-import com.whizzosoftware.hobson.api.config.EmailConfiguration;
 import com.whizzosoftware.hobson.api.property.PropertyContainer;
 import com.whizzosoftware.hobson.api.property.PropertyContainerClass;
 import com.whizzosoftware.hobson.api.property.PropertyContainerClassContext;
@@ -28,7 +27,7 @@ public class MockHubManager implements HubManager, LocalHubManager {
     }
 
     @Override
-    public void sendTestEmail(HubContext ctx, EmailConfiguration config) {
+    public void sendTestEmail(HubContext ctx, PropertyContainer config) {
 
     }
 
