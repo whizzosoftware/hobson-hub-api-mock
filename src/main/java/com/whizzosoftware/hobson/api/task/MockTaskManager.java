@@ -116,6 +116,11 @@ public class MockTaskManager implements TaskManager {
     }
 
     @Override
+    public void fireTaskExecutionEvent(HobsonTask task, long time, Throwable error) {
+
+    }
+
+    @Override
     public void createTask(HubContext ctx, String name, String description, PropertyContainerSet conditionSet, PropertyContainerSet actionSet) {
 
     }
