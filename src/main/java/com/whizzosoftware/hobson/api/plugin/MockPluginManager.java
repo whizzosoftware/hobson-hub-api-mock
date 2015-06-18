@@ -25,12 +25,7 @@ public class MockPluginManager implements PluginManager {
     }
 
     @Override
-    public Collection<HobsonPlugin> getAllPlugins(HubContext ctx) {
-        return null;
-    }
-
-    @Override
-    public HobsonPlugin getPlugin(PluginContext ctx) {
+    public HobsonPlugin getLocalPlugin(PluginContext ctx) {
         return null;
     }
 
@@ -45,19 +40,24 @@ public class MockPluginManager implements PluginManager {
     }
 
     @Override
-    public ImageInputStream getPluginIcon(PluginContext ctx) {
+    public PluginDescriptor getRemotePluginDescriptor(PluginContext ctx, String version) {
         return null;
     }
 
     @Override
-    public PropertyContainer getPluginConfiguration(PluginContext ctx) {
+    public ImageInputStream getLocalPluginIcon(PluginContext ctx) {
+        return null;
+    }
+
+    @Override
+    public PropertyContainer getLocalPluginConfiguration(PluginContext ctx) {
         return configMap.get(ctx.getPluginId());
     }
 
     @Override
-    public Object getPluginConfigurationProperty(PluginContext ctx, String name) {
+    public Object getLocalPluginConfigurationProperty(PluginContext ctx, String name) {
         Object value = null;
-        PropertyContainer c = getPluginConfiguration(ctx);
+        PropertyContainer c = getLocalPluginConfiguration(ctx);
         if (c != null) {
             value = c.getPropertyValue(name);
         }
@@ -65,27 +65,17 @@ public class MockPluginManager implements PluginManager {
     }
 
     @Override
-    public String getPluginCurrentVersion(PluginContext ctx) {
-        return null;
-    }
-
-    @Override
-    public void publishPlugin(HobsonPlugin plugin) {
+    public void installRemotePlugin(PluginContext ctx, String pluginVersion) {
 
     }
 
     @Override
-    public void installPlugin(PluginContext ctx, String pluginVersion) {
-
-    }
-
-    @Override
-    public void setPluginConfiguration(PluginContext ctx, PropertyContainer config) {
+    public void setLocalPluginConfiguration(PluginContext ctx, PropertyContainer config) {
         configMap.put(ctx.getPluginId(), config);
     }
 
     @Override
-    public void setPluginConfigurationProperty(PluginContext ctx, String name, Object value) {
+    public void setLocalPluginConfigurationProperty(PluginContext ctx, String name, Object value) {
         PropertyContainer config = configMap.get(ctx.getPluginId());
         if (config == null) {
             config = new PropertyContainer();
@@ -95,7 +85,7 @@ public class MockPluginManager implements PluginManager {
     }
 
     @Override
-    public void reloadPlugin(PluginContext ctx) {
+    public void reloadLocalPlugin(PluginContext ctx) {
 
     }
 }
