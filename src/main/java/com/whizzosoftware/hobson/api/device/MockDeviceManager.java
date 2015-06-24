@@ -68,6 +68,9 @@ public class MockDeviceManager implements DeviceManager {
             publishedDevices.put(pluginId, deviceMap);
         }
         deviceMap.put(device.getContext().getDeviceId(), device);
+        if (device instanceof AbstractHobsonDevice) {
+            ((AbstractHobsonDevice)device).onStartup(null);
+        }
     }
 
     @Override
