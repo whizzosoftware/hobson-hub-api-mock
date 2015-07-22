@@ -20,6 +20,11 @@ public class MockPluginManager implements PluginManager {
     private final Map<String,PropertyContainer> configMap = new HashMap<>();
 
     @Override
+    public File getDataDirectory(PluginContext ctx) {
+        return null;
+    }
+
+    @Override
     public File getDataFile(PluginContext ctx, String filename) {
         return null;
     }
