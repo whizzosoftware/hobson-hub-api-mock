@@ -20,6 +20,10 @@ public class MockPluginManager implements PluginManager {
     private final Map<String,PropertyContainer> configMap = new HashMap<>();
 
     @Override
+    public void enableRemoteRepository(String url, boolean enabled) {
+    }
+
+    @Override
     public File getDataDirectory(PluginContext ctx) {
         return null;
     }
