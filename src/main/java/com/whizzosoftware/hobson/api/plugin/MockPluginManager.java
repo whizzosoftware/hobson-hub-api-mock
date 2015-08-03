@@ -20,7 +20,8 @@ public class MockPluginManager implements PluginManager {
     private final Map<String,PropertyContainer> configMap = new HashMap<>();
 
     @Override
-    public void enableRemoteRepository(String url, boolean enabled) {
+    public void addRemoteRepository(String uri) {
+
     }
 
     @Override
@@ -45,6 +46,11 @@ public class MockPluginManager implements PluginManager {
 
     @Override
     public Collection<PluginDescriptor> getRemotePluginDescriptors(HubContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Collection<String> getRemoteRepositories() {
         return null;
     }
 
@@ -95,6 +101,11 @@ public class MockPluginManager implements PluginManager {
 
     @Override
     public void reloadLocalPlugin(PluginContext ctx) {
+
+    }
+
+    @Override
+    public void removeRemoteRepository(String uri) {
 
     }
 }
