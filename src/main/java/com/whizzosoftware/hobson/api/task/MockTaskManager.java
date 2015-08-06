@@ -62,7 +62,7 @@ public class MockTaskManager implements TaskManager {
     }
 
     @Override
-    public Collection<PropertyContainerClass> getAllActionClasses(HubContext ctx) {
+    public Collection<PropertyContainerClass> getAllActionClasses(HubContext ctx, boolean applyConstraints) {
         return null;
     }
 
