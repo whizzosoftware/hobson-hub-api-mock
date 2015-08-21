@@ -18,6 +18,7 @@ import java.util.Map;
 
 public class MockPluginManager implements PluginManager {
     private final Map<String,PropertyContainer> configMap = new HashMap<>();
+    private final Map<PluginContext,HobsonPlugin> pluginMap = new HashMap<>();
 
     @Override
     public void addRemoteRepository(String uri) {
@@ -36,7 +37,11 @@ public class MockPluginManager implements PluginManager {
 
     @Override
     public HobsonPlugin getLocalPlugin(PluginContext ctx) {
-        return null;
+        return pluginMap.get(ctx);
+    }
+
+    public void addLocalPlugin(HobsonPlugin plugin) {
+        pluginMap.put(plugin.getContext(), plugin);
     }
 
     @Override

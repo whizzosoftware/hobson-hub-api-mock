@@ -3,14 +3,18 @@ package com.whizzosoftware.hobson.api.task;
 import com.whizzosoftware.hobson.api.hub.HubContext;
 import com.whizzosoftware.hobson.api.plugin.PluginContext;
 import com.whizzosoftware.hobson.api.property.*;
+import com.whizzosoftware.hobson.api.task.action.TaskActionClass;
+import com.whizzosoftware.hobson.api.task.condition.ConditionClassType;
+import com.whizzosoftware.hobson.api.task.condition.TaskConditionClass;
 
 import java.util.*;
 
 public class MockTaskManager implements TaskManager {
-    private Map<String,HobsonTask> publishedTasks = new HashMap<>();
-    private Map<PropertyContainerClassContext,PropertyContainerClass> actionClasses = new HashMap<>();
-    private Map<PropertyContainerClassContext,PropertyContainerClass> conditionClasses = new HashMap<>();
+    private Map<TaskContext,HobsonTask> createdTasks = new HashMap<>();
+    private Map<PropertyContainerClassContext,TaskActionClass> actionClasses = new HashMap<>();
+    private Map<PropertyContainerClassContext,TaskConditionClass> conditionClasses = new HashMap<>();
     private Map<String,PropertyContainerSet> actionSets = new HashMap<>();
+    private List<TaskContext> taskExecutions = new ArrayList<>();
     private List<String> actionSetExecutions = new ArrayList<>();
 
     @Override
@@ -19,18 +23,18 @@ public class MockTaskManager implements TaskManager {
     }
 
     @Override
-    public PropertyContainerClass getConditionClass(PropertyContainerClassContext ctx) {
+    public TaskConditionClass getConditionClass(PropertyContainerClassContext ctx) {
         return conditionClasses.get(ctx);
     }
 
     @Override
     public HobsonTask getTask(TaskContext ctx) {
-        return publishedTasks.get(ctx.toString());
+        return createdTasks.get(ctx);
     }
 
     @Override
-    public void publishActionClass(PropertyContainerClassContext context, String name, List<TypedProperty> properties) {
-        actionClasses.put(context, new PropertyContainerClass(context, name, properties));
+    public void publishActionClass(TaskActionClass actionClass) {
+        actionClasses.put(actionClass.getContext(), actionClass);
     }
 
     @Override
@@ -42,17 +46,21 @@ public class MockTaskManager implements TaskManager {
     }
 
     @Override
-    public void publishConditionClass(PropertyContainerClassContext ctx, String name, List<TypedProperty> properties) {
-        conditionClasses.put(ctx, new PropertyContainerClass(ctx, name, properties));
+    public void publishConditionClass(TaskConditionClass conditionClass) {
+        conditionClasses.put(conditionClass.getContext(), conditionClass);
     }
 
     @Override
-    public void executeTask(TaskContext ctx) {
+    public void fireTaskTrigger(TaskContext ctx) {
+        taskExecutions.add(ctx);
+    }
 
+    public List<TaskContext> getTaskExecutions() {
+        return taskExecutions;
     }
 
     @Override
-    public PropertyContainerClass getActionClass(PropertyContainerClassContext ctx) {
+    public TaskActionClass getActionClass(PropertyContainerClassContext ctx) {
         return actionClasses.get(ctx);
     }
 
@@ -62,7 +70,7 @@ public class MockTaskManager implements TaskManager {
     }
 
     @Override
-    public Collection<PropertyContainerClass> getAllActionClasses(HubContext ctx, boolean applyConstraints) {
+    public Collection<TaskActionClass> getAllActionClasses(HubContext ctx, boolean applyConstraints) {
         return null;
     }
 
@@ -72,13 +80,8 @@ public class MockTaskManager implements TaskManager {
     }
 
     @Override
-    public Collection<PropertyContainerClass> getAllConditionClasses(HubContext ctx, boolean applyConstraints) {
+    public Collection<TaskConditionClass> getAllConditionClasses(HubContext ctx, ConditionClassType type, boolean applyConstraints) {
         return null;
-    }
-
-    @Override
-    public void publishTask(HobsonTask task) {
-        publishedTasks.put(task.getContext().toString(), task);
     }
 
     @Override
@@ -96,33 +99,29 @@ public class MockTaskManager implements TaskManager {
 
     }
 
-    public Collection<HobsonTask> getPublishedTasks() {
-        return publishedTasks.values();
-    }
-
     @Override
-    public void unpublishAllTasks(PluginContext ctx) {
-        publishedTasks.clear();
-    }
-
-    @Override
-    public void unpublishTask(TaskContext ctx) {
+    public void updateTask(TaskContext ctx, String name, String description, List<PropertyContainer> conditions, PropertyContainerSet actionSet) {
 
     }
 
     @Override
-    public void updateTask(TaskContext ctx, String name, String description, PropertyContainerSet conditionSet, PropertyContainerSet actionSet) {
+    public void updateTaskProperties(TaskContext ctx, Map<String, Object> properties) {
+        HobsonTask task = createdTasks.get(ctx);
+        if (task != null) {
+            for (String key : properties.keySet()) {
+                task.setProperty(key, properties.get(key));
+            }
+        }
+    }
 
+    public Collection<HobsonTask> getCreatedTasks() {
+        return createdTasks.values();
     }
 
     @Override
-    public void fireTaskExecutionEvent(HobsonTask task, long time, Throwable error) {
-
-    }
-
-    @Override
-    public void createTask(HubContext ctx, String name, String description, PropertyContainerSet conditionSet, PropertyContainerSet actionSet) {
-
+    public void createTask(HubContext ctx, String name, String description, List<PropertyContainer> conditions, PropertyContainerSet actionSet) {
+        HobsonTask task = new HobsonTask(TaskContext.create(ctx, UUID.randomUUID().toString()), name, description, null, conditions, actionSet);
+        createdTasks.put(task.getContext(), task);
     }
 
     @Override
