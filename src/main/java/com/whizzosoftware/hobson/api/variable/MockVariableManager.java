@@ -60,7 +60,7 @@ public class MockVariableManager implements VariableManager {
 
     @Override
     public HobsonVariableCollection getDeviceVariables(DeviceContext ctx, VariableProxyValueProvider proxyProvider) {
-        Map<String,HobsonVariable> m = getPublishedDeviceVariables().get(ctx.getPluginId() + ":" + ctx.getDeviceId());
+        Map<String,HobsonVariable> m = getPublishedDeviceVariables().get(ctx.toString());
         return (m != null) ? new HobsonVariableCollection(m.values()) : null;
     }
 
@@ -71,13 +71,13 @@ public class MockVariableManager implements VariableManager {
 
     @Override
     public HobsonVariable getDeviceVariable(DeviceContext ctx, String name, VariableProxyValueProvider proxyValueProvider) {
-        Map<String,HobsonVariable> m = getPublishedDeviceVariables().get(ctx.getPluginId() + ":" + ctx.getDeviceId());
+        Map<String,HobsonVariable> m = getPublishedDeviceVariables().get(ctx.toString());
         return (m != null) ? m.get(name) : null;
     }
 
     @Override
     public boolean hasDeviceVariable(DeviceContext ctx, String name) {
-        return false;
+        return publishedDeviceVariables.containsKey(ctx.toString()) && publishedDeviceVariables.get(ctx.toString()).containsKey(name);
     }
 
     @Override
@@ -102,17 +102,17 @@ public class MockVariableManager implements VariableManager {
 
     @Override
     public void publishDeviceVariable(DeviceContext ctx, String name, Object value, HobsonVariable.Mask mask, String proxyType) {
-        Map<String,HobsonVariable> m = publishedDeviceVariables.get(ctx.getPluginId() + ":" + ctx.getDeviceId());
+        Map<String,HobsonVariable> m = publishedDeviceVariables.get(ctx.toString());
         if (m == null) {
             m = new HashMap<>();
-            publishedDeviceVariables.put(ctx.getPluginId() + ":" + ctx.getDeviceId(), m);
+            publishedDeviceVariables.put(ctx.toString(), m);
         }
         m.put(name, new MockHobsonVariable(ctx.getPluginId(), name, value, mask));
     }
 
     @Override
     public void unpublishDeviceVariable(DeviceContext ctx, String name) {
-        Map<String,HobsonVariable> m = publishedDeviceVariables.get(ctx.getPluginId() + ":" + ctx.getDeviceId());
+        Map<String,HobsonVariable> m = publishedDeviceVariables.get(ctx.toString());
         if (m != null) {
             m.remove(name);
         }
@@ -120,7 +120,7 @@ public class MockVariableManager implements VariableManager {
 
     @Override
     public void unpublishAllDeviceVariables(DeviceContext ctx) {
-        publishedDeviceVariables.remove(ctx.getPluginId() + ":" + ctx.getDeviceId());
+        publishedDeviceVariables.remove(ctx.toString());
     }
 
     @Override
@@ -161,8 +161,12 @@ public class MockVariableManager implements VariableManager {
         return publishedDeviceVariables;
     }
 
-    public Map<String,HobsonVariable> getPublishedDeviceVariables(String pluginId, String deviceId) {
-        return publishedDeviceVariables.get(pluginId + ":" + deviceId);
+    public HobsonVariable getPublishedDeviceVariable(DeviceContext ctx, String name) {
+        return publishedDeviceVariables.get(ctx.toString()).get(name);
+    }
+
+    public Map<String,HobsonVariable> getPublishedDeviceVariables(DeviceContext context) {
+        return publishedDeviceVariables.get(context.toString());
     }
 
     public void clearPublishedDeviceVariables() {
