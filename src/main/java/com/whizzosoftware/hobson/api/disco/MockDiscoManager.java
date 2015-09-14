@@ -10,14 +10,26 @@ package com.whizzosoftware.hobson.api.disco;
 import com.whizzosoftware.hobson.api.hub.HubContext;
 import com.whizzosoftware.hobson.api.plugin.PluginContext;
 
+import java.util.Collection;
+
 public class MockDiscoManager implements DiscoManager {
     @Override
-    public void requestDeviceAdvertisementSnapshot(PluginContext ctx, String protocolId) {
+    public void requestExternalDeviceAdvertisementSnapshot(PluginContext ctx, String protocolId) {
 
     }
 
     @Override
-    public void fireDeviceAdvertisement(HubContext ctx, DeviceAdvertisement advertisement) {
+    public Collection<DeviceAdvertisement> getInternalDeviceAdvertisements(HubContext ctx, String protocolId) {
+        return null;
+    }
+
+    @Override
+    public DeviceAdvertisement getInternalDeviceAdvertisement(HubContext ctx, String protocolId, String advId) {
+        return null;
+    }
+
+    @Override
+    public void publishDeviceAdvertisement(HubContext ctx, DeviceAdvertisement advertisement, boolean internal) {
 
     }
 }
