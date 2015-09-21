@@ -50,6 +50,11 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
+    public void resetDeviceBootstrap(HubContext hubContext, String id) {
+
+    }
+
+    @Override
     public Collection<HobsonDevice> getAllDevices(HubContext ctx) {
         return getPublishedDevices();
     }
