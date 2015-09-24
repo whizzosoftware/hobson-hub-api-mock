@@ -109,6 +109,11 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
+    public void checkInDevice(DeviceContext ctx, Long checkInTime) {
+
+    }
+
+    @Override
     public void setDeviceConfiguration(DeviceContext ctx, PropertyContainer config) {
 
     }
