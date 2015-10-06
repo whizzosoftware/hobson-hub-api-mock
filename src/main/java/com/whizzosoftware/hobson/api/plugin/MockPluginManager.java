@@ -75,18 +75,7 @@ public class MockPluginManager implements PluginManager {
     }
 
     @Override
-    public Object getLocalPluginConfigurationProperty(PluginContext ctx, String name) {
-        Object value = null;
-        PropertyContainer c = getLocalPluginConfiguration(ctx);
-        if (c != null) {
-            value = c.getPropertyValue(name);
-        }
-        return value;
-    }
-
-    @Override
     public void installRemotePlugin(PluginContext ctx, String pluginVersion) {
-
     }
 
     @Override
