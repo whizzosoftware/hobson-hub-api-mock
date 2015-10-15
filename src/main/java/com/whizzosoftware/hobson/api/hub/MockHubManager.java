@@ -12,6 +12,7 @@ import com.whizzosoftware.hobson.api.property.PropertyContainer;
 import com.whizzosoftware.hobson.api.property.PropertyContainerClass;
 import com.whizzosoftware.hobson.api.property.PropertyContainerClassContext;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -52,6 +53,11 @@ public class MockHubManager implements HubManager, LocalHubManager {
     }
 
     @Override
+    public NetworkInfo getNetworkInfo() throws IOException {
+        return null;
+    }
+
+    @Override
     public boolean authenticateLocal(HubContext ctx, String password) {
         return false;
     }
@@ -89,6 +95,11 @@ public class MockHubManager implements HubManager, LocalHubManager {
     @Override
     public boolean authenticateHub(HubContext ctx, HubCredentials credentials) {
         return false;
+    }
+
+    @Override
+    public PropertyContainerClass getConfigurationClass(HubContext hubContext) {
+        return null;
     }
 
     @Override
