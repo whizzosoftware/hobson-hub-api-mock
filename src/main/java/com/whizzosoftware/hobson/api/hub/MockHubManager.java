@@ -93,18 +93,20 @@ public class MockHubManager implements HubManager, LocalHubManager {
     }
 
     @Override
-    public boolean authenticateHub(HubContext ctx, HubCredentials credentials) {
+    public boolean authenticateHub(HubCredentials credentials) {
         return false;
     }
 
     @Override
     public PropertyContainerClass getConfigurationClass(HubContext hubContext) {
-        return null;
+        return new HubConfigurationClass();
     }
 
     @Override
     public PropertyContainer getConfiguration(HubContext ctx) {
-        return null;
+        PropertyContainer pc = new PropertyContainer(getConfigurationClass(ctx).getContext(), null);
+        pc.setName("configuration");
+        return pc;
     }
 
     @Override

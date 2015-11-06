@@ -120,22 +120,12 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
-    public void setDeviceConfiguration(DeviceContext ctx, PropertyContainer config) {
-
-    }
-
-    @Override
     public void setDeviceConfigurationProperty(DeviceContext ctx, String name, Object value, boolean overwrite) {
 
     }
 
     @Override
     public void setDeviceConfigurationProperties(DeviceContext ctx, Map<String, Object> values, boolean overwrite) {
-
-    }
-
-    @Override
-    public void setDeviceName(DeviceContext ctx, String name) {
 
     }
 

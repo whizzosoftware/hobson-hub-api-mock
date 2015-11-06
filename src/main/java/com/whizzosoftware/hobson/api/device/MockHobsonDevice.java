@@ -4,8 +4,18 @@ import com.whizzosoftware.hobson.api.plugin.HobsonPlugin;
 import com.whizzosoftware.hobson.api.property.TypedProperty;
 
 public class MockHobsonDevice extends AbstractHobsonDevice {
+    private DeviceType type;
+
     public MockHobsonDevice(HobsonPlugin plugin, String id) {
         super(plugin, id);
+    }
+
+    public void setDefaultName(String name) {
+        super.setDefaultName(name);
+    }
+
+    public void setType(DeviceType type) {
+        this.type = type;
     }
 
     @Override
@@ -15,7 +25,7 @@ public class MockHobsonDevice extends AbstractHobsonDevice {
 
     @Override
     public DeviceType getType() {
-        return null;
+        return type;
     }
 
     @Override

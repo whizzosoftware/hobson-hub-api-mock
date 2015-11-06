@@ -24,53 +24,28 @@ public class MockVariableManager implements VariableManager {
     }
 
     @Override
-    public Collection<HobsonVariable> getAllVariables(HubContext ctx, VariableProxyValueProvider proxyProvider) {
-        return null;
-    }
-
-    @Override
     public Collection<String> getPublishedVariableNames(HubContext ctx) {
         return null;
     }
 
     @Override
     public Collection<HobsonVariable> getGlobalVariables(HubContext ctx) {
-        return getGlobalVariables(ctx, null);
-    }
-
-    @Override
-    public Collection<HobsonVariable> getGlobalVariables(HubContext ctx, VariableProxyValueProvider proxyProvider) {
         return getPublishedGlobalVariables().values();
     }
 
     @Override
     public HobsonVariable getGlobalVariable(HubContext ctx, String name) {
-        return getGlobalVariable(ctx, name, null);
-    }
-
-    @Override
-    public HobsonVariable getGlobalVariable(HubContext ctx, String name, VariableProxyValueProvider proxyProvider) {
         return getPublishedGlobalVariables().get(name);
     }
 
     @Override
     public HobsonVariableCollection getDeviceVariables(DeviceContext ctx) {
-        return getDeviceVariables(ctx, null);
-    }
-
-    @Override
-    public HobsonVariableCollection getDeviceVariables(DeviceContext ctx, VariableProxyValueProvider proxyProvider) {
         Map<String,HobsonVariable> m = getPublishedDeviceVariables().get(ctx.toString());
         return (m != null) ? new HobsonVariableCollection(m.values()) : null;
     }
 
     @Override
     public HobsonVariable getDeviceVariable(DeviceContext ctx, String name) {
-        return getDeviceVariable(ctx, name, null);
-    }
-
-    @Override
-    public HobsonVariable getDeviceVariable(DeviceContext ctx, String name, VariableProxyValueProvider proxyValueProvider) {
         Map<String,HobsonVariable> m = getPublishedDeviceVariables().get(ctx.toString());
         return (m != null) ? m.get(name) : null;
     }
@@ -86,7 +61,7 @@ public class MockVariableManager implements VariableManager {
     }
 
     @Override
-    public void publishGlobalVariable(PluginContext ctx, String name, Object value, HobsonVariable.Mask mask, String proxyType) {
+    public void publishGlobalVariable(PluginContext ctx, String name, Object value, HobsonVariable.Mask mask, VariableProxyType proxyType) {
 
     }
 
@@ -101,7 +76,7 @@ public class MockVariableManager implements VariableManager {
     }
 
     @Override
-    public void publishDeviceVariable(DeviceContext ctx, String name, Object value, HobsonVariable.Mask mask, String proxyType) {
+    public void publishDeviceVariable(DeviceContext ctx, String name, Object value, HobsonVariable.Mask mask, VariableProxyType proxyType) {
         Map<String,HobsonVariable> m = publishedDeviceVariables.get(ctx.toString());
         if (m == null) {
             m = new HashMap<>();
