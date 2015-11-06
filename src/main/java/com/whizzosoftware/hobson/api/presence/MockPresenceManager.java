@@ -17,56 +17,56 @@ public class MockPresenceManager implements PresenceManager {
     private Map<PresenceEntityContext,PresenceLocationContext> entityLocations = new HashMap<>();
 
     @Override
-    public Collection<PresenceEntity> getAllEntities(HubContext ctx) {
+    public Collection<PresenceEntity> getAllPresenceEntities(HubContext ctx) {
         return presenceEntityList.values();
     }
 
     @Override
-    public PresenceEntity getEntity(PresenceEntityContext ctx) {
+    public PresenceEntity getPresenceEntity(PresenceEntityContext ctx) {
         return presenceEntityList.get(ctx);
     }
 
     @Override
-    public PresenceEntityContext addEntity(HubContext hctx, String name) {
+    public PresenceEntityContext addPresenceEntity(HubContext hctx, String name) {
         PresenceEntityContext ctx = PresenceEntityContext.create(hctx, UUID.randomUUID().toString());
         presenceEntityList.put(ctx, new PresenceEntity(ctx, name));
         return ctx;
     }
 
     @Override
-    public void deleteEntity(PresenceEntityContext ctx) {
+    public void deletePresenceEntity(PresenceEntityContext ctx) {
         presenceEntityList.remove(ctx);
     }
 
     @Override
-    public PresenceLocation getEntityLocation(PresenceEntityContext ctx) {
-        return getLocation(entityLocations.get(ctx));
+    public PresenceLocation getPresenceEntityLocation(PresenceEntityContext ctx) {
+        return getPresenceLocation(entityLocations.get(ctx));
     }
 
     @Override
-    public void updateEntityLocation(PresenceEntityContext ectx, PresenceLocationContext lctx) {
+    public void updatePresenceEntityLocation(PresenceEntityContext ectx, PresenceLocationContext lctx) {
         entityLocations.put(ectx, lctx);
     }
 
     @Override
-    public Collection<PresenceLocation> getAllLocations(HubContext ctx) {
+    public Collection<PresenceLocation> getAllPresenceLocations(HubContext ctx) {
         return locationMap.values();
     }
 
     @Override
-    public PresenceLocation getLocation(PresenceLocationContext ctx) {
+    public PresenceLocation getPresenceLocation(PresenceLocationContext ctx) {
         return locationMap.get(ctx);
     }
 
     @Override
-    public PresenceLocationContext addLocation(HubContext hctx, String name, Double latitude, Double longitude, Double radius, Integer beaconMajor, Integer beaconMinor) {
+    public PresenceLocationContext addPresenceLocation(HubContext hctx, String name, Double latitude, Double longitude, Double radius, Integer beaconMajor, Integer beaconMinor) {
         PresenceLocationContext ctx = PresenceLocationContext.create(hctx, UUID.randomUUID().toString());
         locationMap.put(ctx, new PresenceLocation(ctx, name, latitude, longitude, radius, beaconMajor, beaconMinor));
         return ctx;
     }
 
     @Override
-    public void deleteLocation(PresenceLocationContext ctx) {
+    public void deletePresenceLocation(PresenceLocationContext ctx) {
 
     }
 }
