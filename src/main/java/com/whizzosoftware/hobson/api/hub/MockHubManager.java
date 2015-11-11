@@ -18,6 +18,11 @@ import java.util.Collection;
 
 public class MockHubManager implements HubManager, LocalHubManager {
     @Override
+    public String getVersion(HubContext hubContext) {
+        return null;
+    }
+
+    @Override
     public Collection<HobsonHub> getHubs(String userId) {
         return new ArrayList<>();
     }
