@@ -13,10 +13,12 @@ import com.whizzosoftware.hobson.api.property.PropertyContainerClass;
 import com.whizzosoftware.hobson.api.property.PropertyContainerClassContext;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 
 public class MockHubManager implements HubManager, LocalHubManager {
+    private Map<HubContext,HobsonHub> hubs = new HashMap<>();
+
+
     @Override
     public String getVersion(HubContext hubContext) {
         return null;
@@ -24,12 +26,18 @@ public class MockHubManager implements HubManager, LocalHubManager {
 
     @Override
     public Collection<HobsonHub> getHubs(String userId) {
-        return new ArrayList<>();
+        List<HobsonHub> results = new ArrayList<>();
+        for (HubContext ctx : hubs.keySet()) {
+            if (ctx.getUserId().equals(userId)) {
+                results.add(hubs.get(ctx));
+            }
+        }
+        return results;
     }
 
     @Override
     public HobsonHub getHub(HubContext ctx) {
-        return null;
+        return hubs.get(ctx);
     }
 
     @Override
@@ -84,7 +92,9 @@ public class MockHubManager implements HubManager, LocalHubManager {
 
     @Override
     public HobsonHub addHub(String userId, String name) {
-        return null;
+        HobsonHub hub = new HobsonHub(HubContext.create(userId, UUID.randomUUID().toString()), name);
+        hubs.put(hub.getContext(), hub);
+        return hub;
     }
 
     @Override

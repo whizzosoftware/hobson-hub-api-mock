@@ -5,9 +5,16 @@ import com.whizzosoftware.hobson.api.property.TypedProperty;
 
 public class MockHobsonDevice extends AbstractHobsonDevice {
     private DeviceType type;
+    private String preferredVariableName;
 
     public MockHobsonDevice(HobsonPlugin plugin, String id) {
         super(plugin, id);
+    }
+
+    public MockHobsonDevice(HobsonPlugin plugin, String id, DeviceType type, String defaultName) {
+        this(plugin, id);
+        this.type = type;
+        setDefaultName(defaultName);
     }
 
     public void setDefaultName(String name) {
@@ -16,6 +23,15 @@ public class MockHobsonDevice extends AbstractHobsonDevice {
 
     public void setType(DeviceType type) {
         this.type = type;
+    }
+
+    public void setPreferredVariableName(String preferredVariableName) {
+        this.preferredVariableName = preferredVariableName;
+    }
+
+    @Override
+    public String getPreferredVariableName() {
+        return preferredVariableName;
     }
 
     @Override

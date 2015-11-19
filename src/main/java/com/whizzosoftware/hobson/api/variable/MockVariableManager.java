@@ -20,7 +20,12 @@ public class MockVariableManager implements VariableManager {
 
     @Override
     public Collection<HobsonVariable> getAllVariables(HubContext ctx) {
-        return null;
+        List<HobsonVariable> results = new ArrayList<>();
+        results.addAll(publishedGlobalVariables.values());
+        for (Map<String,HobsonVariable> m : publishedDeviceVariables.values()) {
+            results.addAll(m.values());
+        }
+        return results;
     }
 
     @Override
