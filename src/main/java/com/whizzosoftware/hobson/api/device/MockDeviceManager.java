@@ -19,6 +19,7 @@ public class MockDeviceManager implements DeviceManager {
     public final Map<String,Map<String,Object>> deviceConfigProps = new HashMap<>();
 
     public final Map<String,Map<String,HobsonDevice>> publishedDevices = new HashMap<>();
+    public final Map<DeviceContext,Long> checkInMap = new HashMap<>();
 
     @Override
     public DeviceBootstrap createDeviceBootstrap(HubContext hubContext, String deviceId) {
@@ -91,6 +92,11 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
+    public Long getDeviceLastCheckIn(DeviceContext ctx) {
+        return checkInMap.get(ctx);
+    }
+
+    @Override
     public boolean hasDevice(DeviceContext ctx) {
         return false;
     }
@@ -116,7 +122,7 @@ public class MockDeviceManager implements DeviceManager {
 
     @Override
     public void checkInDevice(DeviceContext ctx, Long checkInTime) {
-
+        checkInMap.put(ctx, checkInTime);
     }
 
     @Override
