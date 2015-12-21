@@ -82,12 +82,18 @@ public class MockVariableManager implements VariableManager {
 
     @Override
     public void publishDeviceVariable(DeviceContext ctx, String name, Object value, HobsonVariable.Mask mask, VariableMediaType mediaType) {
+        publishDeviceVariable(ctx, name, value, mask, mediaType, System.currentTimeMillis());
+    }
+
+    public void publishDeviceVariable(DeviceContext ctx, String name, Object value, HobsonVariable.Mask mask, VariableMediaType mediaType, Long lastUpdate) {
         Map<String,HobsonVariable> m = publishedDeviceVariables.get(ctx.toString());
         if (m == null) {
             m = new HashMap<>();
             publishedDeviceVariables.put(ctx.toString(), m);
         }
-        m.put(name, new MutableHobsonVariable(ctx.getPluginId(), ctx.getDeviceId(), name, mask, value, mediaType));
+        MutableHobsonVariable mhv = new MutableHobsonVariable(ctx.getPluginId(), ctx.getDeviceId(), name, mask, value, mediaType);
+        mhv.setLastUpdate(lastUpdate);
+        m.put(name, mhv);
     }
 
     @Override
