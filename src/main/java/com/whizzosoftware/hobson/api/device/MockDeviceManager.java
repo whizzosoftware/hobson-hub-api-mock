@@ -19,6 +19,7 @@ public class MockDeviceManager implements DeviceManager {
     public final Map<String,Map<String,Object>> deviceConfigProps = new HashMap<>();
 
     public final Map<String,Map<String,HobsonDevice>> publishedDevices = new HashMap<>();
+    public final Map<DeviceContext,Boolean> availabilityMap = new HashMap<>();
     public final Map<DeviceContext,Long> checkInMap = new HashMap<>();
 
     @Override
@@ -57,6 +58,14 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
+    public void setDeviceAvailability(DeviceContext ctx, boolean available, Long checkInTime) {
+        availabilityMap.put(ctx, available);
+        if (checkInTime != null) {
+            checkInMap.put(ctx, checkInTime);
+        }
+    }
+
+    @Override
     public Collection<HobsonDevice> getAllDevices(HubContext ctx) {
         return getPublishedDevices();
     }
@@ -92,6 +101,11 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
+    public boolean isDeviceAvailable(DeviceContext ctx) {
+        return availabilityMap.get(ctx);
+    }
+
+    @Override
     public Long getDeviceLastCheckIn(DeviceContext ctx) {
         return checkInMap.get(ctx);
     }
@@ -118,11 +132,6 @@ public class MockDeviceManager implements DeviceManager {
         if (device instanceof AbstractHobsonDevice) {
             ((AbstractHobsonDevice)device).onStartup(null);
         }
-    }
-
-    @Override
-    public void checkInDevice(DeviceContext ctx, Long checkInTime) {
-        checkInMap.put(ctx, checkInTime);
     }
 
     @Override
