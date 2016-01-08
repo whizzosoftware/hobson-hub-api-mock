@@ -15,15 +15,15 @@ import java.util.*;
 
 public class MockVariableManager implements VariableManager {
     private final Map<String,HobsonVariable> publishedGlobalVariables = new HashMap<>();
-    private final Map<String,Map<String,HobsonVariable>> publishedDeviceVariables = new HashMap<>();
+    private final Map<VariableContext,HobsonVariable> publishedDeviceVariables = new HashMap<>();
     private final List<VariableUpdate> variableUpdates = new ArrayList<>();
 
     @Override
     public Collection<HobsonVariable> getAllVariables(HubContext ctx) {
         List<HobsonVariable> results = new ArrayList<>();
         results.addAll(publishedGlobalVariables.values());
-        for (Map<String,HobsonVariable> m : publishedDeviceVariables.values()) {
-            results.addAll(m.values());
+        for (HobsonVariable v : publishedDeviceVariables.values()) {
+            results.add(v);
         }
         return results;
     }
@@ -39,103 +39,77 @@ public class MockVariableManager implements VariableManager {
     }
 
     @Override
-    public HobsonVariable getGlobalVariable(HubContext ctx, String name) {
-        return getPublishedGlobalVariables().get(name);
-    }
-
-    @Override
-    public HobsonVariableCollection getDeviceVariables(DeviceContext ctx) {
-        Map<String,HobsonVariable> m = getPublishedDeviceVariables().get(ctx.toString());
-        return (m != null) ? new HobsonVariableCollection(m.values()) : null;
-    }
-
-    @Override
-    public HobsonVariable getDeviceVariable(DeviceContext ctx, String name) {
-        Map<String,HobsonVariable> m = getPublishedDeviceVariables().get(ctx.toString());
-        return (m != null) ? m.get(name) : null;
-    }
-
-    @Override
-    public boolean hasDeviceVariable(DeviceContext ctx, String name) {
-        return publishedDeviceVariables.containsKey(ctx.toString()) && publishedDeviceVariables.get(ctx.toString()).containsKey(name);
-    }
-
-    @Override
-    public void publishGlobalVariable(PluginContext ctx, String name, Object value, HobsonVariable.Mask mask) {
-        publishedGlobalVariables.put(name, new MutableHobsonVariable(ctx.getPluginId(), name, mask, value, null));
-    }
-
-    @Override
-    public void publishGlobalVariable(PluginContext ctx, String name, Object value, HobsonVariable.Mask mask, VariableMediaType mediaType) {
-        publishedGlobalVariables.put(name, new MutableHobsonVariable(ctx.getPluginId(), name, mask, value, mediaType));
-    }
-
-    @Override
-    public void unpublishGlobalVariable(PluginContext ctx, String name) {
-        publishedGlobalVariables.remove(name);
-    }
-
-    @Override
-    public void publishDeviceVariable(DeviceContext ctx, String name, Object value, HobsonVariable.Mask mask) {
-        publishDeviceVariable(ctx, name, value, mask, null);
-    }
-
-    @Override
-    public void publishDeviceVariable(DeviceContext ctx, String name, Object value, HobsonVariable.Mask mask, VariableMediaType mediaType) {
-        publishDeviceVariable(ctx, name, value, mask, mediaType, System.currentTimeMillis());
-    }
-
-    public void publishDeviceVariable(DeviceContext ctx, String name, Object value, HobsonVariable.Mask mask, VariableMediaType mediaType, Long lastUpdate) {
-        Map<String,HobsonVariable> m = publishedDeviceVariables.get(ctx.toString());
-        if (m == null) {
-            m = new HashMap<>();
-            publishedDeviceVariables.put(ctx.toString(), m);
+    public HobsonVariableCollection getVariables(DeviceContext ctx) {
+        List<HobsonVariable> m = null;
+        for (VariableContext dvc : publishedDeviceVariables.keySet()) {
+            if (dvc.getDeviceContext().equals(ctx)) {
+                if (m == null) {
+                    m = new ArrayList<>();
+                }
+                m.add(publishedDeviceVariables.get(dvc));
+            }
         }
-        MutableHobsonVariable mhv = new MutableHobsonVariable(ctx.getPluginId(), ctx.getDeviceId(), name, mask, value, mediaType);
+        return m != null ? new HobsonVariableCollection(m) : null;
+    }
+
+    @Override
+    public HobsonVariable getVariable(VariableContext ctx) {
+        return publishedDeviceVariables.get(ctx);
+    }
+
+    @Override
+    public boolean hasVariable(VariableContext ctx) {
+        return publishedDeviceVariables.containsKey(ctx);
+    }
+
+    @Override
+    public void publishVariable(VariableContext ctx, Object value, HobsonVariable.Mask mask) {
+        publishVariable(ctx, value, mask, null);
+    }
+
+    @Override
+    public void publishVariable(VariableContext ctx, Object value, HobsonVariable.Mask mask, VariableMediaType mediaType) {
+        publishVariable(ctx, value, mask, mediaType, System.currentTimeMillis());
+    }
+
+    public void publishVariable(VariableContext ctx, Object value, HobsonVariable.Mask mask, VariableMediaType mediaType, Long lastUpdate) {
+        MutableHobsonVariable mhv = new MutableHobsonVariable(ctx, mask, value, mediaType);
         mhv.setLastUpdate(lastUpdate);
-        m.put(name, mhv);
+        publishedDeviceVariables.put(ctx, mhv);
     }
 
     @Override
-    public void unpublishDeviceVariable(DeviceContext ctx, String name) {
-        Map<String,HobsonVariable> m = publishedDeviceVariables.get(ctx.toString());
-        if (m != null) {
-            m.remove(name);
+    public void unpublishVariable(VariableContext ctx) {
+        publishedDeviceVariables.remove(ctx);
+    }
+
+    @Override
+    public void unpublishAllVariables(DeviceContext ctx) {
+        for (Iterator<VariableContext> it = publishedDeviceVariables.keySet().iterator(); it.hasNext(); ) {
+            VariableContext dvc = it.next();
+            if (dvc.getDeviceContext().equals(ctx)) {
+                it.remove();
+            }
         }
     }
 
     @Override
-    public void unpublishAllDeviceVariables(DeviceContext ctx) {
-        publishedDeviceVariables.remove(ctx.toString());
-    }
-
-    @Override
-    public void unpublishAllPluginVariables(PluginContext ctx) {
+    public void unpublishAllVariables(PluginContext ctx) {
 
     }
 
     @Override
-    public Long setGlobalVariable(PluginContext ctx, String name, Object value) {
+    public Long setVariable(VariableContext ctx, Object value) {
         return null;
     }
 
     @Override
-    public Map<String, Long> setGlobalVariables(PluginContext ctx, Map<String, Object> values) {
+    public Map<String, Long> setVariables(DeviceContext ctx, Map<String, Object> values) {
         return null;
     }
 
     @Override
-    public Long setDeviceVariable(DeviceContext ctx, String name, Object value) {
-        return null;
-    }
-
-    @Override
-    public Map<String, Long> setDeviceVariables(DeviceContext ctx, Map<String, Object> values) {
-        return null;
-    }
-
-    @Override
-    public void applyVariableUpdates(HubContext ctx, List<VariableUpdate> updates) {
+    public void fireVariableUpdateNotifications(HubContext ctx, List<VariableUpdate> updates) {
         variableUpdates.addAll(updates);
     }
 
@@ -143,16 +117,12 @@ public class MockVariableManager implements VariableManager {
         return publishedGlobalVariables;
     }
 
-    public Map<String,Map<String,HobsonVariable>> getPublishedDeviceVariables() {
-        return publishedDeviceVariables;
+    public Collection<HobsonVariable> getPublishedDeviceVariables() {
+        return publishedDeviceVariables.values();
     }
 
     public HobsonVariable getPublishedDeviceVariable(DeviceContext ctx, String name) {
-        return publishedDeviceVariables.get(ctx.toString()).get(name);
-    }
-
-    public Map<String,HobsonVariable> getPublishedDeviceVariables(DeviceContext context) {
-        return publishedDeviceVariables.get(context.toString());
+        return publishedDeviceVariables.get(VariableContext.create(ctx, name));
     }
 
     public void clearPublishedDeviceVariables() {
