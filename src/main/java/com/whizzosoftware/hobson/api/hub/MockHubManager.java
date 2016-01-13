@@ -11,6 +11,7 @@ package com.whizzosoftware.hobson.api.hub;
 import com.whizzosoftware.hobson.api.property.PropertyContainer;
 import com.whizzosoftware.hobson.api.property.PropertyContainerClass;
 import com.whizzosoftware.hobson.api.property.PropertyContainerClassContext;
+import com.whizzosoftware.hobson.api.telemetry.TelemetryManager;
 
 import java.io.IOException;
 import java.util.*;
@@ -25,11 +26,16 @@ public class MockHubManager implements HubManager, LocalHubManager {
     }
 
     @Override
-    public Collection<HobsonHub> getHubs(String userId) {
-        List<HobsonHub> results = new ArrayList<>();
+    public Collection<HubContext> getAllHubs() {
+        return null;
+    }
+
+    @Override
+    public Collection<HubContext> getHubs(String userId) {
+        List<HubContext> results = new ArrayList<>();
         for (HubContext ctx : hubs.keySet()) {
             if (ctx.getUserId().equals(userId)) {
-                results.add(hubs.get(ctx));
+                results.add(hubs.get(ctx).getContext());
             }
         }
         return results;
@@ -52,6 +58,11 @@ public class MockHubManager implements HubManager, LocalHubManager {
 
     @Override
     public void setConfiguration(HubContext ctx, PropertyContainer configuration) {
+
+    }
+
+    @Override
+    public void addTelemetryManager(TelemetryManager telemetryManager) {
 
     }
 
@@ -90,7 +101,6 @@ public class MockHubManager implements HubManager, LocalHubManager {
 
     }
 
-    @Override
     public HobsonHub addHub(String userId, String name) {
         HobsonHub hub = new HobsonHub(HubContext.create(userId, UUID.randomUUID().toString()), name);
         hubs.put(hub.getContext(), hub);
@@ -98,12 +108,12 @@ public class MockHubManager implements HubManager, LocalHubManager {
     }
 
     @Override
-    public void deleteConfiguration(HubContext ctx) {
-
+    public String getUserIdForHubId(String hubId) {
+        return null;
     }
 
     @Override
-    public void removeHub(HubContext ctx) {
+    public void deleteConfiguration(HubContext ctx) {
 
     }
 
