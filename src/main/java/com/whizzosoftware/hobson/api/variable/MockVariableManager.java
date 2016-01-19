@@ -63,17 +63,13 @@ public class MockVariableManager implements VariableManager {
     }
 
     @Override
-    public void publishVariable(VariableContext ctx, Object value, HobsonVariable.Mask mask) {
-        publishVariable(ctx, value, mask, null);
+    public void publishVariable(VariableContext ctx, Object value, HobsonVariable.Mask mask, Long lastUpdate) {
+        publishVariable(ctx, value, mask, lastUpdate, null);
     }
 
     @Override
-    public void publishVariable(VariableContext ctx, Object value, HobsonVariable.Mask mask, VariableMediaType mediaType) {
-        publishVariable(ctx, value, mask, mediaType, System.currentTimeMillis());
-    }
-
-    public void publishVariable(VariableContext ctx, Object value, HobsonVariable.Mask mask, VariableMediaType mediaType, Long lastUpdate) {
-        MutableHobsonVariable mhv = new MutableHobsonVariable(ctx, mask, value, mediaType);
+    public void publishVariable(VariableContext ctx, Object value, HobsonVariable.Mask mask, Long lastUpdate, VariableMediaType mediaType) {
+        MutableHobsonVariable mhv = new MutableHobsonVariable(ctx, mask, value, lastUpdate, mediaType);
         mhv.setLastUpdate(lastUpdate);
         publishedDeviceVariables.put(ctx, mhv);
     }
