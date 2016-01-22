@@ -27,7 +27,7 @@ public class MockHubManager implements HubManager, LocalHubManager {
 
     @Override
     public Collection<HubContext> getAllHubs() {
-        return null;
+        return hubs.keySet();
     }
 
     @Override
@@ -102,7 +102,11 @@ public class MockHubManager implements HubManager, LocalHubManager {
     }
 
     public HobsonHub addHub(String userId, String name) {
-        HobsonHub hub = new HobsonHub(HubContext.create(userId, UUID.randomUUID().toString()), name);
+        return addHub(HubContext.create(userId, UUID.randomUUID().toString()), name);
+    }
+
+    public HobsonHub addHub(HubContext hctx, String name) {
+        HobsonHub hub = new HobsonHub(hctx, name);
         hubs.put(hub.getContext(), hub);
         return hub;
     }
