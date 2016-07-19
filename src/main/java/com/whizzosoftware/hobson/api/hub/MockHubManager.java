@@ -11,7 +11,7 @@ package com.whizzosoftware.hobson.api.hub;
 import com.whizzosoftware.hobson.api.property.PropertyContainer;
 import com.whizzosoftware.hobson.api.property.PropertyContainerClass;
 import com.whizzosoftware.hobson.api.property.PropertyContainerClassContext;
-import com.whizzosoftware.hobson.api.telemetry.TelemetryManager;
+import com.whizzosoftware.hobson.api.data.DataStreamManager;
 
 import java.io.IOException;
 import java.util.*;
@@ -34,9 +34,7 @@ public class MockHubManager implements HubManager, LocalHubManager {
     public Collection<HubContext> getHubs(String userId) {
         List<HubContext> results = new ArrayList<>();
         for (HubContext ctx : hubs.keySet()) {
-            if (ctx.getUserId().equals(userId)) {
-                results.add(hubs.get(ctx).getContext());
-            }
+            results.add(hubs.get(ctx).getContext());
         }
         return results;
     }
@@ -62,7 +60,7 @@ public class MockHubManager implements HubManager, LocalHubManager {
     }
 
     @Override
-    public void addTelemetryManager(TelemetryManager telemetryManager) {
+    public void addDataStreamManager(DataStreamManager telemetryManager) {
 
     }
 
@@ -77,8 +75,18 @@ public class MockHubManager implements HubManager, LocalHubManager {
     }
 
     @Override
+    public Collection<String> getSerialPorts(HubContext hubContext) {
+        return null;
+    }
+
+    @Override
     public NetworkInfo getNetworkInfo() throws IOException {
         return null;
+    }
+
+    @Override
+    public void publishWebApplication(HubWebApplication hubWebApplication) {
+
     }
 
     @Override
@@ -101,8 +109,18 @@ public class MockHubManager implements HubManager, LocalHubManager {
 
     }
 
-    public HobsonHub addHub(String userId, String name) {
-        return addHub(HubContext.create(userId, UUID.randomUUID().toString()), name);
+    @Override
+    public void setWebSocketUri(String s) {
+
+    }
+
+    @Override
+    public void unpublishWebApplication(String s) {
+
+    }
+
+    public HobsonHub addHub(String name) {
+        return addHub(HubContext.create(UUID.randomUUID().toString()), name);
     }
 
     public HobsonHub addHub(HubContext hctx, String name) {

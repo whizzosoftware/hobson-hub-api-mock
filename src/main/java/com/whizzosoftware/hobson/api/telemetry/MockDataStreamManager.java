@@ -7,11 +7,12 @@
  *******************************************************************************/
 package com.whizzosoftware.hobson.api.telemetry;
 
+import com.whizzosoftware.hobson.api.data.*;
 import com.whizzosoftware.hobson.api.variable.VariableContext;
 
 import java.util.*;
 
-public class MockTelemetryManager implements TelemetryManager {
+public class MockDataStreamManager implements DataStreamManager {
     private Set<VariableContext> monitoredVariables = new HashSet<>();
 
     @Override
@@ -20,8 +21,13 @@ public class MockTelemetryManager implements TelemetryManager {
     }
 
     @Override
-    public String createDataStream(String userId, String name, Collection<VariableContext> data) {
+    public String createDataStream(String userId, String name, Collection<DataStreamField> data, Set<String> tags) {
         return null;
+    }
+
+    @Override
+    public void deleteDataStream(String s, String s1) {
+
     }
 
     @Override
@@ -40,12 +46,12 @@ public class MockTelemetryManager implements TelemetryManager {
     }
 
     @Override
-    public void addData(String userId, String dataStreamId, long now, Map<VariableContext, Object> data) {
+    public void addData(String userId, String dataStreamId, long now, Map<String, Object> data) {
 
     }
 
     @Override
-    public List<TemporalValueSet> getData(String userId, String dataStreamId, long endTime, TelemetryInterval interval) {
+    public List<DataStreamValueSet> getData(String userId, String dataStreamId, long endTime, DataStreamInterval interval) {
         return null;
     }
 

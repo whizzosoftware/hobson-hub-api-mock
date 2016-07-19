@@ -27,21 +27,7 @@ public class MockUserStore implements UserStore {
     }
 
     @Override
-    public HobsonUser authenticate(String username, String password) throws HobsonAuthenticationException {
-        return new HobsonUser(username);
-    }
-
-    @Override
-    public HobsonUser getUser(String username) {
-        return new HobsonUser(username);
-    }
-
-    @Override
-    public Collection<String> getUserIds() {
-        return users;
-    }
-
-    public void addUser(String userId) {
-        users.add(userId);
+    public UserAuthentication authenticate(String username, String password) throws HobsonAuthenticationException {
+        return new UserAuthentication(new HobsonUser(username), "token");
     }
 }

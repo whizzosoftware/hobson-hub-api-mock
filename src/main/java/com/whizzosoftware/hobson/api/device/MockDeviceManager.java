@@ -111,6 +111,11 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
+    public Set<String> getDeviceTags(DeviceContext deviceContext) {
+        return null;
+    }
+
+    @Override
     public boolean hasDevice(DeviceContext ctx) {
         return false;
     }
@@ -141,6 +146,11 @@ public class MockDeviceManager implements DeviceManager {
 
     @Override
     public void setDeviceConfigurationProperties(DeviceContext ctx, Map<String, Object> values, boolean overwrite) {
+
+    }
+
+    @Override
+    public void setDeviceTags(DeviceContext deviceContext, Set<String> set) {
 
     }
 
