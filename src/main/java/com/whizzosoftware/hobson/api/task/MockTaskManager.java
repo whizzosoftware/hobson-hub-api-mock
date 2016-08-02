@@ -130,6 +130,11 @@ public class MockTaskManager implements TaskManager {
     }
 
     @Override
+    public void executeTask(TaskContext ctx) {
+
+    }
+
+    @Override
     public void executeActionSet(HubContext ctx, String actionSetId) {
         actionSetExecutions.add(actionSetId);
     }
