@@ -31,7 +31,7 @@ public class MockHobsonPlugin extends AbstractHobsonPlugin {
     }
 
     @Override
-    protected TypedProperty[] createSupportedProperties() {
+    protected TypedProperty[] getConfigurationPropertyTypes() {
         return null;
     }
 

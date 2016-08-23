@@ -1,31 +1,42 @@
 package com.whizzosoftware.hobson.api.device;
 
+import com.whizzosoftware.hobson.api.device.proxy.AbstractDeviceProxy;
 import com.whizzosoftware.hobson.api.plugin.HobsonPlugin;
+import com.whizzosoftware.hobson.api.property.PropertyContainer;
 import com.whizzosoftware.hobson.api.property.TypedProperty;
+import com.whizzosoftware.hobson.api.variable.DeviceVariableContext;
+import com.whizzosoftware.hobson.api.variable.DeviceVariableDescription;
 
-public class MockHobsonDevice extends AbstractHobsonDevice {
-    private DeviceType type;
+public class MockDeviceProxy extends AbstractDeviceProxy {
+    private DeviceType deviceType;
     private String manufacturerName;
     private String manufacturerVersion;
     private String modelName;
     private String preferredVariableName;
+    private boolean isStarted;
 
-    public MockHobsonDevice(HobsonPlugin plugin, String id) {
-        super(plugin, id);
+    public MockDeviceProxy(HobsonPlugin plugin, String id, DeviceType deviceType) {
+        this(plugin, id, deviceType, null);
     }
 
-    public MockHobsonDevice(HobsonPlugin plugin, String id, DeviceType type, String defaultName) {
-        this(plugin, id);
-        this.type = type;
-        setDefaultName(defaultName);
+    public MockDeviceProxy(HobsonPlugin plugin, String id, DeviceType deviceType, String defaultName) {
+        super(plugin, id, defaultName);
+        this.deviceType = deviceType;
     }
 
-    public void setDefaultName(String name) {
-        super.setDefaultName(name);
+    @Override
+    protected TypedProperty[] createConfigurationPropertyTypes() {
+        return null;
     }
 
-    public void setType(DeviceType type) {
-        this.type = type;
+    @Override
+    protected DeviceVariableDescription[] createVariableDescriptions() {
+        return null;
+    }
+
+    @Override
+    public DeviceType getDeviceType() {
+        return deviceType;
     }
 
     @Override
@@ -55,27 +66,18 @@ public class MockHobsonDevice extends AbstractHobsonDevice {
         this.modelName = modelName;
     }
 
-    public void setPreferredVariableName(String preferredVariableName) {
-        this.preferredVariableName = preferredVariableName;
-    }
-
     @Override
     public String getPreferredVariableName() {
         return preferredVariableName;
     }
 
     @Override
-    protected TypedProperty[] createSupportedProperties() {
-        return null;
-    }
-
-    @Override
-    public DeviceType getType() {
-        return type;
-    }
-
-    @Override
     public void onShutdown() {
+    }
+
+    @Override
+    public void onDeviceConfigurationUpdate(PropertyContainer config) {
+
     }
 
     @Override

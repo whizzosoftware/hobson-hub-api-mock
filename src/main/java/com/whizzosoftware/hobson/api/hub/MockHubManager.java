@@ -12,6 +12,8 @@ import com.whizzosoftware.hobson.api.property.PropertyContainer;
 import com.whizzosoftware.hobson.api.property.PropertyContainerClass;
 import com.whizzosoftware.hobson.api.property.PropertyContainerClassContext;
 import com.whizzosoftware.hobson.api.data.DataStreamManager;
+import com.whizzosoftware.hobson.api.variable.GlobalVariable;
+import com.whizzosoftware.hobson.api.variable.GlobalVariableContext;
 
 import java.io.IOException;
 import java.util.*;
@@ -57,6 +59,26 @@ public class MockHubManager implements HubManager, LocalHubManager {
     @Override
     public void setConfiguration(HubContext ctx, PropertyContainer configuration) {
 
+    }
+
+    @Override
+    public void setGlobalVariable(GlobalVariableContext gctx, Object value, long timestamp) {
+
+    }
+
+    @Override
+    public void setGlobalVariables(Map<GlobalVariableContext, Object> values, long timestamp) {
+
+    }
+
+    @Override
+    public GlobalVariable getGlobalVariable(GlobalVariableContext gctx) {
+        return null;
+    }
+
+    @Override
+    public Collection<GlobalVariable> getAllGlobalVariables(HubContext hctx) {
+        return null;
     }
 
     @Override

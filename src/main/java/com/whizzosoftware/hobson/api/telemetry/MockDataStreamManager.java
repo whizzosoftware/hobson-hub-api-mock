@@ -8,12 +8,12 @@
 package com.whizzosoftware.hobson.api.telemetry;
 
 import com.whizzosoftware.hobson.api.data.*;
-import com.whizzosoftware.hobson.api.variable.VariableContext;
+import com.whizzosoftware.hobson.api.variable.DeviceVariableContext;
 
 import java.util.*;
 
 public class MockDataStreamManager implements DataStreamManager {
-    private Set<VariableContext> monitoredVariables = new HashSet<>();
+    private Set<DeviceVariableContext> monitoredVariables = new HashSet<>();
 
     @Override
     public boolean isStub() {
@@ -41,7 +41,7 @@ public class MockDataStreamManager implements DataStreamManager {
     }
 
     @Override
-    public Set<VariableContext> getMonitoredVariables(String userId) {
+    public Set<DeviceVariableContext> getMonitoredVariables(String userId) {
         return monitoredVariables;
     }
 
@@ -55,7 +55,7 @@ public class MockDataStreamManager implements DataStreamManager {
         return null;
     }
 
-    public void addMonitoredVariable(VariableContext vctx) {
+    public void addMonitoredVariable(DeviceVariableContext vctx) {
         monitoredVariables.add(vctx);
     }
 }

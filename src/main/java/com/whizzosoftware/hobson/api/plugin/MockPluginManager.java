@@ -10,6 +10,8 @@ package com.whizzosoftware.hobson.api.plugin;
 import com.whizzosoftware.hobson.api.hub.HubContext;
 import com.whizzosoftware.hobson.api.image.ImageInputStream;
 import com.whizzosoftware.hobson.api.property.PropertyContainer;
+import com.whizzosoftware.hobson.api.variable.GlobalVariable;
+import com.whizzosoftware.hobson.api.variable.GlobalVariableContext;
 
 import java.io.File;
 import java.util.Collection;
@@ -32,6 +34,16 @@ public class MockPluginManager implements PluginManager {
 
     @Override
     public File getDataFile(PluginContext ctx, String filename) {
+        return null;
+    }
+
+    @Override
+    public GlobalVariable getGlobalVariable(GlobalVariableContext gvctx) {
+        return null;
+    }
+
+    @Override
+    public Collection<GlobalVariable> getGlobalVariables(PluginContext pctx) {
         return null;
     }
 
