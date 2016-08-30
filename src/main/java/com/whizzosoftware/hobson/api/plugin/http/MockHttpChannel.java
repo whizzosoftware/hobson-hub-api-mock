@@ -9,10 +9,11 @@ package com.whizzosoftware.hobson.api.plugin.http;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public class MockHttpChannel implements HttpChannel {
+public class MockHttpChannel extends HttpClientChannel {
     private final List<URI> getRequests = new ArrayList<>();
     private final List<URI> postRequests = new ArrayList<>();
     private final List<URI> putRequests = new ArrayList<>();
@@ -24,28 +25,13 @@ public class MockHttpChannel implements HttpChannel {
     }
 
     @Override
-    public void sendHttpGetRequest(URI uri, Map<String, String> headers, Object context) {
-        getRequests.add(uri);
+    protected HttpRequest createHttpRequest(URI uri, HttpRequest.Method method) {
+        return null;
     }
 
     @Override
-    public void sendHttpPostRequest(URI uri, Map<String, String> headers, byte[] data, Object context) {
-        postRequests.add(uri);
-    }
-
-    @Override
-    public void sendHttpPutRequest(URI uri, Map<String, String> headers, byte[] data, Object context) {
-        putRequests.add(uri);
-    }
-
-    @Override
-    public void sendHttpDeleteRequest(URI uri, Map<String, String> headers, byte[] data, Object context) {
-        deleteRequests.add(uri);
-    }
-
-    @Override
-    public void sendHttpPatchRequest(URI uri, Map<String, String> headers, byte[] data, Object context) {
-        patchRequests.add(uri);
+    protected WebSocketHandle createWebSocket(URI uri, Map<String, Collection<String>> map) {
+        return null;
     }
 
     public List<URI> getGetRequests() {

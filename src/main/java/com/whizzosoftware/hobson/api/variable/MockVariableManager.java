@@ -16,6 +16,7 @@ import java.util.*;
 public class MockVariableManager implements VariableManager {
     private final Map<String,HobsonVariable> publishedGlobalVariables = new HashMap<>();
     private final Map<VariableContext,HobsonVariable> publishedDeviceVariables = new HashMap<>();
+    private final Map<VariableContext,Object> variableSets = new HashMap<>();
     private final List<VariableUpdate> variableUpdates = new ArrayList<>();
 
     @Override
@@ -96,11 +97,15 @@ public class MockVariableManager implements VariableManager {
 
     @Override
     public Long setVariable(VariableContext ctx, Object value) {
+        variableSets.put(ctx, value);
         return null;
     }
 
     @Override
     public Map<String, Long> setDeviceVariables(DeviceContext ctx, Map<String, Object> values) {
+        for (String name : values.keySet()) {
+            variableSets.put(VariableContext.create(ctx, name), values.get(name));
+        }
         return null;
     }
 
@@ -131,5 +136,13 @@ public class MockVariableManager implements VariableManager {
 
     public void clearVariableUpdates() {
         variableUpdates.clear();
+    }
+
+    public Map<VariableContext, Object> getVariableSets() {
+        return variableSets;
+    }
+
+    public void clearVariableSets() {
+        variableSets.clear();
     }
 }
