@@ -1,10 +1,12 @@
-/*******************************************************************************
+/*
+ *******************************************************************************
  * Copyright (c) 2014 Whizzo Software, LLC.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *******************************************************************************/
+ *******************************************************************************
+*/
 package com.whizzosoftware.hobson.api.hub;
 
 
@@ -21,14 +23,13 @@ import java.util.*;
 public class MockHubManager implements HubManager, LocalHubManager {
     private Map<HubContext,HobsonHub> hubs = new HashMap<>();
 
-
     @Override
     public String getVersion(HubContext hubContext) {
         return null;
     }
 
     @Override
-    public Collection<HubContext> getAllHubs() {
+    public Collection<HubContext> getHubs() {
         return hubs.keySet();
     }
 
@@ -77,7 +78,7 @@ public class MockHubManager implements HubManager, LocalHubManager {
     }
 
     @Override
-    public Collection<GlobalVariable> getAllGlobalVariables(HubContext hctx) {
+    public Collection<GlobalVariable> getGlobalVariables(HubContext hctx) {
         return null;
     }
 
@@ -181,5 +182,10 @@ public class MockHubManager implements HubManager, LocalHubManager {
     @Override
     public PropertyContainerClass getContainerClass(PropertyContainerClassContext ctx) {
         return null;
+    }
+
+    @Override
+    public boolean hasPropertyContainerClass(PropertyContainerClassContext ctx) {
+        return false;
     }
 }

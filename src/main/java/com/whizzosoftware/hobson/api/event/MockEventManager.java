@@ -1,3 +1,12 @@
+/*
+ *******************************************************************************
+ * Copyright (c) 2014 Whizzo Software, LLC.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************
+*/
 package com.whizzosoftware.hobson.api.event;
 
 import com.whizzosoftware.hobson.api.hub.HubContext;
@@ -6,21 +15,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MockEventManager implements EventManager {
+    private List<Object> listeners = new ArrayList<>();
     private List<HobsonEvent> events = new ArrayList<>();
 
     @Override
-    public void addListener(HubContext ctx, EventListener listener, String[] topics) {
-
+    public void addListener(HubContext ctx, Object listener) {
+        listeners.add(listener);
     }
 
     @Override
-    public void removeListener(HubContext ctx, EventListener listener, String[] topics) {
-
+    public void addListener(HubContext ctx, Object listener, EventCallbackInvoker runnable) {
+        listeners.add(listener);
     }
 
     @Override
-    public void removeListenerFromAllTopics(HubContext ctx, EventListener listener) {
-
+    public void removeListener(HubContext ctx, Object listener) {
+        listeners.remove(listener);
     }
 
     @Override

@@ -1,27 +1,50 @@
+/*
+ *******************************************************************************
+ * Copyright (c) 2016 Whizzo Software, LLC.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************
+*/
 package com.whizzosoftware.hobson.api.device;
 
 import com.whizzosoftware.hobson.api.device.proxy.AbstractDeviceProxy;
 import com.whizzosoftware.hobson.api.plugin.HobsonPlugin;
 import com.whizzosoftware.hobson.api.property.PropertyContainer;
 import com.whizzosoftware.hobson.api.property.TypedProperty;
-import com.whizzosoftware.hobson.api.variable.DeviceVariableContext;
-import com.whizzosoftware.hobson.api.variable.DeviceVariableDescription;
 
 public class MockDeviceProxy extends AbstractDeviceProxy {
-    private DeviceType deviceType;
     private String manufacturerName;
     private String manufacturerVersion;
     private String modelName;
-    private String preferredVariableName;
-    private boolean isStarted;
 
     public MockDeviceProxy(HobsonPlugin plugin, String id, DeviceType deviceType) {
         this(plugin, id, deviceType, null);
     }
 
     public MockDeviceProxy(HobsonPlugin plugin, String id, DeviceType deviceType, String defaultName) {
-        super(plugin, id, defaultName);
-        this.deviceType = deviceType;
+        super(plugin, id, defaultName, deviceType);
+    }
+
+    @Override
+    public String getManufacturerName() {
+        return manufacturerName;
+    }
+
+    @Override
+    public String getManufacturerVersion() {
+        return manufacturerVersion;
+    }
+
+    @Override
+    public String getModelName() {
+        return modelName;
+    }
+
+    @Override
+    public String getPreferredVariableName() {
+        return null;
     }
 
     @Override
@@ -30,45 +53,19 @@ public class MockDeviceProxy extends AbstractDeviceProxy {
     }
 
     @Override
-    protected DeviceVariableDescription[] createVariableDescriptions() {
-        return null;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return deviceType;
-    }
-
-    @Override
-    public String getManufacturerName() {
-        return manufacturerName;
+    public void onStartup(String name, PropertyContainer config) {
     }
 
     public void setManufacturerName(String manufacturerName) {
         this.manufacturerName = manufacturerName;
     }
 
-    @Override
-    public String getManufacturerVersion() {
-        return manufacturerVersion;
-    }
-
     public void setManufacturerVersion(String manufacturerVersion) {
         this.manufacturerVersion = manufacturerVersion;
     }
 
-    @Override
-    public String getModelName() {
-        return modelName;
-    }
-
     public void setModelName(String modelName) {
         this.modelName = modelName;
-    }
-
-    @Override
-    public String getPreferredVariableName() {
-        return preferredVariableName;
     }
 
     @Override
@@ -81,7 +78,7 @@ public class MockDeviceProxy extends AbstractDeviceProxy {
     }
 
     @Override
-    public void onSetVariable(String variableName, Object value) {
-
+    public void onSetVariable(String name, Object value) {
+        setVariableValue(name, value, System.currentTimeMillis());
     }
 }
