@@ -57,16 +57,6 @@ public class MockConfigurationManager implements ConfigurationManager {
     }
 
     @Override
-    public String getDeviceName(DeviceContext ctx) {
-        return null;
-    }
-
-    @Override
-    public void setDeviceName(DeviceContext ctx, String name) {
-
-    }
-
-    @Override
     public PropertyContainer getDeviceConfiguration(DeviceContext ctx, PropertyContainerClass metas) {
         return null;
     }
