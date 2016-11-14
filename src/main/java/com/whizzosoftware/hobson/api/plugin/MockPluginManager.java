@@ -10,7 +10,6 @@
 package com.whizzosoftware.hobson.api.plugin;
 
 import com.whizzosoftware.hobson.api.HobsonNotFoundException;
-import com.whizzosoftware.hobson.api.action.SingleAction;
 import com.whizzosoftware.hobson.api.config.ConfigurationManager;
 import com.whizzosoftware.hobson.api.device.DeviceContext;
 import com.whizzosoftware.hobson.api.event.EventManager;
@@ -29,11 +28,6 @@ public class MockPluginManager extends AbstractPluginManager {
     @Override
     public void addRemoteRepository(String uri) {
 
-    }
-
-    @Override
-    public SingleAction createAction(PropertyContainer pc) {
-        return null;
     }
 
     @Override

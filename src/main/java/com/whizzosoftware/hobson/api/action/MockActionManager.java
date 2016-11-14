@@ -79,8 +79,7 @@ public class MockActionManager implements ActionManager {
     }
 
     @Override
-    public void publishActionClass(HubContext context, ActionClass actionClass) {
-
+    public void publishActionProvider(ActionProvider actionProvider) {
     }
 
     @Override
