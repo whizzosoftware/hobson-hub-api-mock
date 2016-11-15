@@ -58,8 +58,4 @@ public class MockHobsonPlugin extends AbstractHobsonPlugin {
     protected TypedProperty[] getConfigurationPropertyTypes() {
         return null;
     }
-
-    @Override
-    public void onPluginConfigurationUpdate(PropertyContainer config) {
-    }
 }
