@@ -67,12 +67,12 @@ public class MockConfigurationManager implements ConfigurationManager {
     }
 
     @Override
-    public void setDeviceConfigurationProperty(DeviceContext ctx, PropertyContainerClass configClass, String name, Object value) {
+    public void setDeviceConfigurationProperty(DeviceContext ctx, String name, Object value) {
 
     }
 
     @Override
-    public void setDeviceConfigurationProperties(DeviceContext ctx, PropertyContainerClass configurationClass, Map<String, Object> values) {
+    public void setDeviceConfigurationProperties(DeviceContext ctx, Map<String, Object> values) {
 
     }
 }
