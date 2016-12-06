@@ -14,6 +14,8 @@ import com.whizzosoftware.hobson.api.plugin.HobsonPlugin;
 import com.whizzosoftware.hobson.api.property.PropertyContainer;
 import com.whizzosoftware.hobson.api.property.TypedProperty;
 
+import java.util.Map;
+
 public class MockDeviceProxy extends AbstractDeviceProxy {
     private String manufacturerName;
     private String manufacturerVersion;
@@ -48,7 +50,7 @@ public class MockDeviceProxy extends AbstractDeviceProxy {
     }
 
     @Override
-    protected TypedProperty[] createConfigurationPropertyTypes() {
+    protected TypedProperty[] getConfigurationPropertyTypes() {
         return null;
     }
 
@@ -78,7 +80,10 @@ public class MockDeviceProxy extends AbstractDeviceProxy {
     }
 
     @Override
-    public void onSetVariable(String name, Object value) {
-        setVariableValue(name, value, System.currentTimeMillis());
+    public void onSetVariables(Map<String,Object> values) {
+        long now = System.currentTimeMillis();
+        for (String name : values.keySet()) {
+            setVariableValue(name, values.get(name), now);
+        }
     }
 }

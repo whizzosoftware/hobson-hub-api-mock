@@ -46,7 +46,8 @@ public class MockDeviceManager implements DeviceManager {
 
     @Override
     public void deleteDevice(DeviceContext dctx) {
-
+        Map<String,HobsonDeviceProxy> devices = publishedDevices.get(dctx.getPluginId());
+        devices.remove(dctx.getDeviceId());
     }
 
     @Override
@@ -140,28 +141,16 @@ public class MockDeviceManager implements DeviceManager {
 
     }
 
-    @Override
-    public Future setDeviceVariable(final DeviceVariableContext dvctx, final Object o) {
-        return eventLoop.submit(new Runnable() {
-            @Override
-            public void run() {
-                Map<String,HobsonDeviceProxy> map = publishedDevices.get(dvctx.getPluginId());
-                HobsonDeviceProxy d = map.get(dvctx.getDeviceId());
-                d.onSetVariable(dvctx.getName(), o);
-            }
-        });
+    public void setDeviceVariable(final DeviceVariableContext dvctx, final Object o) {
+        Map<String,HobsonDeviceProxy> map = publishedDevices.get(dvctx.getPluginId());
+        HobsonDeviceProxy d = map.get(dvctx.getDeviceId());
+        d.onSetVariables(Collections.singletonMap(dvctx.getName(), o));
     }
 
-    @Override
-    public Future setDeviceVariables(final Map<DeviceVariableContext, Object> map) {
-        return eventLoop.submit(new Runnable() {
-            @Override
-            public void run() {
-                for (DeviceVariableContext dvctx : map.keySet()) {
-                    setDeviceVariable(dvctx, map.get(dvctx));
-                }
-            }
-        });
+    public void setDeviceVariables(final Map<DeviceVariableContext, Object> map) {
+        for (DeviceVariableContext dvctx : map.keySet()) {
+            setDeviceVariable(dvctx, map.get(dvctx));
+        }
     }
 
     protected String createId(String pluginId, String deviceId) {
@@ -198,5 +187,10 @@ public class MockDeviceManager implements DeviceManager {
         } else {
             throw new DeviceNotFoundException(ctx);
         }
+    }
+
+    public int getPublishedDeviceCount(PluginContext pctx) {
+        Map<String,HobsonDeviceProxy> devices = publishedDevices.get(pctx.getPluginId());
+        return (devices != null) ? devices.size() : 0;
     }
 }

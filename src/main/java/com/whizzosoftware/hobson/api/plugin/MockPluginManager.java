@@ -77,6 +77,11 @@ public class MockPluginManager extends AbstractPluginManager {
     }
 
     @Override
+    public Map<String, String> getRemotePluginVersions(HubContext ctx) {
+        return null;
+    }
+
+    @Override
     public Collection<String> getRemoteRepositories() {
         return null;
     }
