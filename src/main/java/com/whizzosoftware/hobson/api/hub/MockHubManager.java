@@ -113,16 +113,6 @@ public class MockHubManager implements HubManager, LocalHubManager {
     }
 
     @Override
-    public boolean authenticateLocal(HubContext ctx, String password) {
-        return false;
-    }
-
-    @Override
-    public void setLocalPassword(HubContext ctx, PasswordChange change) {
-
-    }
-
-    @Override
     public void addErrorLogAppender(Object o) {
 
     }
