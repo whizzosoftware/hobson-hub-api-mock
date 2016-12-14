@@ -142,7 +142,7 @@ public class MockHubManager implements HubManager, LocalHubManager {
     }
 
     @Override
-    public void setWebSocketUri(String s) {
+    public void setWebSocketInfo(String protocol, int port, String path) {
 
     }
 
