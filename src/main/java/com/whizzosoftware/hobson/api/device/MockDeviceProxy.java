@@ -9,14 +9,14 @@
 */
 package com.whizzosoftware.hobson.api.device;
 
-import com.whizzosoftware.hobson.api.device.proxy.AbstractDeviceProxy;
+import com.whizzosoftware.hobson.api.device.proxy.AbstractHobsonDeviceProxy;
 import com.whizzosoftware.hobson.api.plugin.HobsonPlugin;
 import com.whizzosoftware.hobson.api.property.PropertyContainer;
 import com.whizzosoftware.hobson.api.property.TypedProperty;
 
 import java.util.Map;
 
-public class MockDeviceProxy extends AbstractDeviceProxy {
+public class MockDeviceProxy extends AbstractHobsonDeviceProxy {
     private String manufacturerName;
     private String manufacturerVersion;
     private String modelName;
