@@ -22,6 +22,7 @@ import io.netty.util.concurrent.Future;
 import java.util.*;
 
 public class MockActionManager implements ActionManager {
+    private Map<PropertyContainerClassContext,ActionClass> actionClasses = new HashMap<>();
     private Map<String,PropertyContainerSet> actionSets = new HashMap<>();
 
     @Override
@@ -46,7 +47,7 @@ public class MockActionManager implements ActionManager {
 
     @Override
     public ActionClass getActionClass(PropertyContainerClassContext ctx) {
-        return null;
+        return actionClasses.get(ctx);
     }
 
     @Override
@@ -94,5 +95,9 @@ public class MockActionManager implements ActionManager {
         PropertyContainerSet tas = new PropertyContainerSet(actionSetId, actions);
         actionSets.put(actionSetId, tas);
         return tas;
+    }
+
+    public void publishActionClass(ActionClass ac) {
+        actionClasses.put(ac.getContext(), ac);
     }
 }
