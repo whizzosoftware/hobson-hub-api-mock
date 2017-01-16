@@ -7,7 +7,6 @@
  *******************************************************************************/
 package com.whizzosoftware.hobson.api.plugin;
 
-import com.whizzosoftware.hobson.api.task.HobsonTask;
 import com.whizzosoftware.hobson.api.task.TaskContext;
 import com.whizzosoftware.hobson.api.task.TaskProvider;
 
@@ -16,9 +15,9 @@ import java.util.Collection;
 import java.util.List;
 
 public class MockTaskProvider implements TaskProvider {
-    private List<HobsonTask> createdTasks = new ArrayList<>();
+    private List<TaskContext> createdTasks = new ArrayList<>();
 
-    public List<HobsonTask> getCreatedTasks() {
+    public List<TaskContext> getCreatedTasks() {
         return createdTasks;
     }
 
@@ -27,13 +26,19 @@ public class MockTaskProvider implements TaskProvider {
     }
 
     @Override
-    synchronized public void onCreateTasks(Collection<HobsonTask> tasks) {
+    synchronized public void onRegisterTasks(Collection<TaskContext> tasks) {
         createdTasks.addAll(tasks);
         notify();
     }
 
     @Override
-    public void onUpdateTask(HobsonTask task) {
+    public void onCreateTask(TaskContext ctx) {
+        createdTasks.add(ctx);
+        notify();
+    }
+
+    @Override
+    public void onUpdateTask(TaskContext ctx) {
 
     }
 

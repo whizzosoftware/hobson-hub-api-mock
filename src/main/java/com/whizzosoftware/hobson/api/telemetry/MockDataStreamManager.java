@@ -8,12 +8,13 @@
 package com.whizzosoftware.hobson.api.telemetry;
 
 import com.whizzosoftware.hobson.api.data.*;
-import com.whizzosoftware.hobson.api.variable.VariableContext;
+import com.whizzosoftware.hobson.api.hub.HubContext;
+import com.whizzosoftware.hobson.api.variable.DeviceVariableContext;
 
 import java.util.*;
 
 public class MockDataStreamManager implements DataStreamManager {
-    private Set<VariableContext> monitoredVariables = new HashSet<>();
+    private Set<DeviceVariableContext> monitoredVariables = new HashSet<>();
 
     @Override
     public boolean isStub() {
@@ -21,41 +22,32 @@ public class MockDataStreamManager implements DataStreamManager {
     }
 
     @Override
-    public String createDataStream(String userId, String name, Collection<DataStreamField> data, Set<String> tags) {
+    public String createDataStream(HubContext ctx, String name, Collection<DataStreamField> data, Set<String> tags) {
         return null;
     }
 
     @Override
-    public void deleteDataStream(String s, String s1) {
+    public void deleteDataStream(HubContext ctx, String dataStreamId) {
 
     }
 
     @Override
-    public Collection<DataStream> getDataStreams(String userId) {
+    public Collection<DataStream> getDataStreams(HubContext ctx) {
         return null;
     }
 
     @Override
-    public DataStream getDataStream(String userId, String dataStreamId) {
+    public DataStream getDataStream(HubContext ctx, String dataStreamId) {
         return null;
     }
 
     @Override
-    public Set<VariableContext> getMonitoredVariables(String userId) {
-        return monitoredVariables;
-    }
-
-    @Override
-    public void addData(String userId, String dataStreamId, long now, Map<String, Object> data) {
+    public void addData(HubContext ctx, String dataStreamId, long now, Map<String, Object> data) {
 
     }
 
     @Override
-    public List<DataStreamValueSet> getData(String userId, String dataStreamId, long endTime, DataStreamInterval interval) {
+    public List<DataStreamValueSet> getData(HubContext ctx, String dataStreamId, long endTime, DataStreamInterval interval) {
         return null;
-    }
-
-    public void addMonitoredVariable(VariableContext vctx) {
-        monitoredVariables.add(vctx);
     }
 }

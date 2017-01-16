@@ -1,10 +1,12 @@
-/*******************************************************************************
+/*
+ *******************************************************************************
  * Copyright (c) 2014 Whizzo Software, LLC.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *******************************************************************************/
+ *******************************************************************************
+*/
 package com.whizzosoftware.hobson.api.hub;
 
 
@@ -12,13 +14,23 @@ import com.whizzosoftware.hobson.api.property.PropertyContainer;
 import com.whizzosoftware.hobson.api.property.PropertyContainerClass;
 import com.whizzosoftware.hobson.api.property.PropertyContainerClassContext;
 import com.whizzosoftware.hobson.api.data.DataStreamManager;
+import com.whizzosoftware.hobson.api.user.HobsonUser;
+import com.whizzosoftware.hobson.api.variable.GlobalVariable;
+import com.whizzosoftware.hobson.api.variable.GlobalVariableContext;
 
 import java.io.IOException;
 import java.util.*;
 
 public class MockHubManager implements HubManager, LocalHubManager {
     private Map<HubContext,HobsonHub> hubs = new HashMap<>();
+    private OIDCConfigProvider oidcConfigProvider;
 
+    public MockHubManager() {
+    }
+
+    public MockHubManager(OIDCConfigProvider oidcConfigProvider) {
+        this.oidcConfigProvider = oidcConfigProvider;
+    }
 
     @Override
     public String getVersion(HubContext hubContext) {
@@ -26,7 +38,7 @@ public class MockHubManager implements HubManager, LocalHubManager {
     }
 
     @Override
-    public Collection<HubContext> getAllHubs() {
+    public Collection<HubContext> getHubs() {
         return hubs.keySet();
     }
 
@@ -60,6 +72,26 @@ public class MockHubManager implements HubManager, LocalHubManager {
     }
 
     @Override
+    public void setGlobalVariable(GlobalVariableContext gctx, Object value, long timestamp) {
+
+    }
+
+    @Override
+    public void setGlobalVariables(Map<GlobalVariableContext, Object> values, long timestamp) {
+
+    }
+
+    @Override
+    public GlobalVariable getGlobalVariable(GlobalVariableContext gctx) {
+        return null;
+    }
+
+    @Override
+    public Collection<GlobalVariable> getGlobalVariables(HubContext hctx) {
+        return null;
+    }
+
+    @Override
     public void addDataStreamManager(DataStreamManager telemetryManager) {
 
     }
@@ -85,17 +117,17 @@ public class MockHubManager implements HubManager, LocalHubManager {
     }
 
     @Override
+    public OIDCConfig getOIDCConfiguration() {
+        return oidcConfigProvider.getConfig();
+    }
+
+    @Override
+    public HobsonUser convertTokenToUser(String token) {
+        return null;
+    }
+
+    @Override
     public void publishWebApplication(HubWebApplication hubWebApplication) {
-
-    }
-
-    @Override
-    public boolean authenticateLocal(HubContext ctx, String password) {
-        return false;
-    }
-
-    @Override
-    public void setLocalPassword(HubContext ctx, PasswordChange change) {
 
     }
 
@@ -110,7 +142,7 @@ public class MockHubManager implements HubManager, LocalHubManager {
     }
 
     @Override
-    public void setWebSocketUri(String s) {
+    public void setWebSocketInfo(String protocol, int port, String path) {
 
     }
 
@@ -159,5 +191,10 @@ public class MockHubManager implements HubManager, LocalHubManager {
     @Override
     public PropertyContainerClass getContainerClass(PropertyContainerClassContext ctx) {
         return null;
+    }
+
+    @Override
+    public boolean hasPropertyContainerClass(PropertyContainerClassContext ctx) {
+        return false;
     }
 }
