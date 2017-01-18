@@ -1,6 +1,7 @@
 package com.whizzosoftware.hobson.api.task;
 
 import com.whizzosoftware.hobson.api.hub.HubContext;
+import com.whizzosoftware.hobson.api.plugin.PluginContext;
 import com.whizzosoftware.hobson.api.property.*;
 import com.whizzosoftware.hobson.api.task.condition.ConditionClassType;
 import com.whizzosoftware.hobson.api.task.condition.TaskConditionClass;
@@ -48,12 +49,12 @@ public class MockTaskManager implements TaskManager {
     }
 
     @Override
-    public void updateTask(TaskContext ctx, String name, String description, boolean enabled, List<PropertyContainer> conditions, PropertyContainerSet actionSet) {
+    public void updateTask(PluginContext pctx, TaskContext ctx, String name, String description, boolean enabled, List<PropertyContainer> conditions, PropertyContainerSet actionSet) {
 
     }
 
     @Override
-    public void updateTaskProperties(TaskContext ctx, Map<String, Object> properties) {
+    public void updateTaskProperties(PluginContext pctx, TaskContext ctx, Map<String, Object> properties) {
         HobsonTask task = createdTasks.get(ctx);
         if (task != null) {
             for (String key : properties.keySet()) {
