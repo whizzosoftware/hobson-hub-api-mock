@@ -13,6 +13,7 @@ import com.whizzosoftware.hobson.api.device.proxy.AbstractHobsonDeviceProxy;
 import com.whizzosoftware.hobson.api.plugin.HobsonPlugin;
 import com.whizzosoftware.hobson.api.property.PropertyContainer;
 import com.whizzosoftware.hobson.api.property.TypedProperty;
+import com.whizzosoftware.hobson.api.variable.DeviceProxyVariable;
 
 import java.util.Map;
 
@@ -80,10 +81,30 @@ public class MockDeviceProxy extends AbstractHobsonDeviceProxy {
     }
 
     @Override
-    public void onSetVariables(Map<String,Object> values) {
+    public void onSetVariables(Map<String, Object> values) {
         long now = System.currentTimeMillis();
         for (String name : values.keySet()) {
             setVariableValue(name, values.get(name), now);
         }
+    }
+
+    /**
+     * Allows unit tests to publish variables for the device.
+     *
+     * @param vars the variables to publish
+     */
+    public void publishVariables(DeviceProxyVariable... vars) {
+        super.publishVariables(vars);
+    }
+
+    /**
+     * Allows unit tests to update variable values for the device.
+     *
+     * @param name the variable name
+     * @param value the variable value
+     * @param updateTime the time of update
+     */
+    public void setVariableValue(String name, Object value, Long updateTime) {
+        super.setVariableValue(name, value, updateTime);
     }
 }

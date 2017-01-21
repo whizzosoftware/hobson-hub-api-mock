@@ -9,6 +9,7 @@
 */
 package com.whizzosoftware.hobson.api.device;
 
+import com.whizzosoftware.hobson.api.HobsonNotFoundException;
 import com.whizzosoftware.hobson.api.device.proxy.HobsonDeviceProxy;
 import com.whizzosoftware.hobson.api.hub.HubContext;
 import com.whizzosoftware.hobson.api.plugin.PluginContext;
@@ -83,6 +84,15 @@ public class MockDeviceManager implements DeviceManager {
     @Override
     public DeviceVariableState getDeviceVariable(DeviceVariableContext ctx) {
         return getPublishedDevice(ctx.getDeviceContext()).getVariableState(ctx.getName());
+    }
+
+    @Override
+    public boolean hasDeviceVariable(DeviceVariableContext ctx) {
+        try {
+            return (getPublishedDevice(ctx.getDeviceContext()).hasVariable(ctx.getName()));
+        } catch (HobsonNotFoundException e) {
+            return false;
+        }
     }
 
     @Override
