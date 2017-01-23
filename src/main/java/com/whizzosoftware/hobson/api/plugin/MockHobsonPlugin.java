@@ -22,6 +22,10 @@ public class MockHobsonPlugin extends AbstractHobsonPlugin {
         super(pluginId, version, description);
     }
 
+    @Override
+    public void onPluginConfigurationUpdate(PropertyContainer config) {
+    }
+
     public void setName(String name) {
         this.name = name;
     }
