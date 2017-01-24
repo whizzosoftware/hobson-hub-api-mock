@@ -12,17 +12,15 @@ package com.whizzosoftware.hobson.api.config;
 import com.whizzosoftware.hobson.api.device.DeviceContext;
 import com.whizzosoftware.hobson.api.hub.HubContext;
 import com.whizzosoftware.hobson.api.plugin.PluginContext;
-import com.whizzosoftware.hobson.api.property.PropertyContainer;
-import com.whizzosoftware.hobson.api.property.PropertyContainerClass;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MockConfigurationManager implements ConfigurationManager {
-    private Map<PluginContext,PropertyContainer> configMap = new HashMap<>();
+    private Map<PluginContext,Map<String,Object>> configMap = new HashMap<>();
 
     @Override
-    public PropertyContainer getHubConfiguration(HubContext ctx) {
+    public Map<String,Object> getHubConfiguration(HubContext ctx) {
         return null;
     }
 
@@ -32,7 +30,7 @@ public class MockConfigurationManager implements ConfigurationManager {
     }
 
     @Override
-    public void setHubConfiguration(HubContext ctx, PropertyContainer configuration) {
+    public void setHubConfiguration(HubContext ctx, Map<String,Object> configuration) {
 
     }
 
@@ -42,12 +40,12 @@ public class MockConfigurationManager implements ConfigurationManager {
     }
 
     @Override
-    public PropertyContainer getLocalPluginConfiguration(PluginContext ctx, PropertyContainerClass configurationClass) {
+    public Map<String,Object> getLocalPluginConfiguration(PluginContext ctx) {
         return configMap.get(ctx);
     }
 
     @Override
-    public void setLocalPluginConfiguration(PluginContext ctx, PropertyContainer newConfig) {
+    public void setLocalPluginConfiguration(PluginContext ctx, Map<String,Object> newConfig) {
         configMap.put(ctx, newConfig);
     }
 
@@ -57,7 +55,7 @@ public class MockConfigurationManager implements ConfigurationManager {
     }
 
     @Override
-    public PropertyContainer getDeviceConfiguration(DeviceContext ctx, PropertyContainerClass metas) {
+    public Map<String,Object> getDeviceConfiguration(DeviceContext ctx) {
         return null;
     }
 

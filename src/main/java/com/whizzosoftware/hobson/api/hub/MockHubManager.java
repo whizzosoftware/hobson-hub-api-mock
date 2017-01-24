@@ -155,8 +155,8 @@ public class MockHubManager implements HubManager, LocalHubManager {
         return addHub(HubContext.create(UUID.randomUUID().toString()), name);
     }
 
-    public HobsonHub addHub(HubContext hctx, String name) {
-        HobsonHub hub = new HobsonHub(hctx, name);
+    private HobsonHub addHub(HubContext hctx, String name) {
+        HobsonHub hub = new HobsonHub.Builder(hctx).name(name).build();
         hubs.put(hub.getContext(), hub);
         return hub;
     }

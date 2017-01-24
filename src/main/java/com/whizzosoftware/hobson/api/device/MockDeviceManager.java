@@ -14,7 +14,6 @@ import com.whizzosoftware.hobson.api.device.proxy.HobsonDeviceProxy;
 import com.whizzosoftware.hobson.api.hub.HubContext;
 import com.whizzosoftware.hobson.api.plugin.PluginContext;
 import com.whizzosoftware.hobson.api.property.PropertyContainer;
-import com.whizzosoftware.hobson.api.property.PropertyContainerClass;
 import com.whizzosoftware.hobson.api.variable.*;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.local.LocalEventLoopGroup;
@@ -117,7 +116,7 @@ public class MockDeviceManager implements DeviceManager {
                     publishedDevices.put(pluginId, deviceMap);
                 }
                 deviceMap.put(device.getContext().getDeviceId(), device);
-                setDeviceConfiguration(device.getContext(), device.getConfigurationClass(), config);
+                setDeviceConfiguration(device.getContext(), config);
                 device.start(null, null);
                 if (runnable != null) {
                     runnable.run();
@@ -132,12 +131,12 @@ public class MockDeviceManager implements DeviceManager {
     }
 
     @Override
-    public void setDeviceConfigurationProperty(DeviceContext dctx, PropertyContainerClass desd, String name, Object value) {
+    public void setDeviceConfigurationProperty(DeviceContext dctx, String name, Object value) {
 
     }
 
     @Override
-    public void setDeviceConfiguration(DeviceContext dctx, PropertyContainerClass configClass, Map<String, Object> values) {
+    public void setDeviceConfiguration(DeviceContext dctx, Map<String, Object> values) {
 
     }
 

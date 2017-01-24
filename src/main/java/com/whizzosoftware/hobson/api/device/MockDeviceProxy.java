@@ -11,7 +11,6 @@ package com.whizzosoftware.hobson.api.device;
 
 import com.whizzosoftware.hobson.api.device.proxy.AbstractHobsonDeviceProxy;
 import com.whizzosoftware.hobson.api.plugin.HobsonPlugin;
-import com.whizzosoftware.hobson.api.property.PropertyContainer;
 import com.whizzosoftware.hobson.api.property.TypedProperty;
 import com.whizzosoftware.hobson.api.variable.DeviceProxyVariable;
 
@@ -56,7 +55,7 @@ public class MockDeviceProxy extends AbstractHobsonDeviceProxy {
     }
 
     @Override
-    public void onStartup(String name, PropertyContainer config) {
+    public void onStartup(String name, Map<String,Object> config) {
     }
 
     public void setManufacturerName(String manufacturerName) {
@@ -76,7 +75,7 @@ public class MockDeviceProxy extends AbstractHobsonDeviceProxy {
     }
 
     @Override
-    public void onDeviceConfigurationUpdate(PropertyContainer config) {
+    public void onDeviceConfigurationUpdate(Map<String,Object> config) {
 
     }
 
