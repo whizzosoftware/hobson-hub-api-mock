@@ -54,9 +54,9 @@ public class MockDeviceManager implements DeviceManager {
     public HobsonDeviceDescriptor getDevice(DeviceContext dctx) {
         return getPublishedDevice(dctx).getDescriptor();
     }
-
+    
     @Override
-    public void updateDevice(HobsonDeviceDescriptor device) {
+    public void updateDeviceVariables(Collection<DeviceVariableDescriptor> vars) {
 
     }
 
