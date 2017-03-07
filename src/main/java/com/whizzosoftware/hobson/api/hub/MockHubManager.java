@@ -14,7 +14,6 @@ import com.whizzosoftware.hobson.api.property.PropertyContainer;
 import com.whizzosoftware.hobson.api.property.PropertyContainerClass;
 import com.whizzosoftware.hobson.api.property.PropertyContainerClassContext;
 import com.whizzosoftware.hobson.api.data.DataStreamManager;
-import com.whizzosoftware.hobson.api.user.HobsonUser;
 import com.whizzosoftware.hobson.api.variable.GlobalVariable;
 import com.whizzosoftware.hobson.api.variable.GlobalVariableContext;
 
@@ -23,13 +22,8 @@ import java.util.*;
 
 public class MockHubManager implements HubManager, LocalHubManager {
     private Map<HubContext,HobsonHub> hubs = new HashMap<>();
-    private OIDCConfigProvider oidcConfigProvider;
 
     public MockHubManager() {
-    }
-
-    public MockHubManager(OIDCConfigProvider oidcConfigProvider) {
-        this.oidcConfigProvider = oidcConfigProvider;
     }
 
     @Override
@@ -40,15 +34,6 @@ public class MockHubManager implements HubManager, LocalHubManager {
     @Override
     public Collection<HubContext> getHubs() {
         return hubs.keySet();
-    }
-
-    @Override
-    public Collection<HubContext> getHubs(String userId) {
-        List<HubContext> results = new ArrayList<>();
-        for (HubContext ctx : hubs.keySet()) {
-            results.add(hubs.get(ctx).getContext());
-        }
-        return results;
     }
 
     @Override
@@ -113,16 +98,6 @@ public class MockHubManager implements HubManager, LocalHubManager {
 
     @Override
     public NetworkInfo getNetworkInfo() throws IOException {
-        return null;
-    }
-
-    @Override
-    public OIDCConfig getOIDCConfiguration() {
-        return oidcConfigProvider.getConfig();
-    }
-
-    @Override
-    public HobsonUser convertTokenToUser(String token) {
         return null;
     }
 
